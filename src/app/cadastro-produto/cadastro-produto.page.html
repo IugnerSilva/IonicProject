@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar class="cor-fundo">
+
+
+    <ion-title class="title">Produto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="novoProduto.nome" placeholder="Nome"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="novoProduto.preco" placeholder="Preço"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="novoProduto.descricao" placeholder="Descrição"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="novoProduto.foto" placeholder="Imagem"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      
+        <ion-label>Categoria</ion-label>
+        <ion-select [(ngModel)]="novoProduto.categoriaUID">
+          <ion-select-option *ngFor="let categoria of categoriaList" [value]="categoria.uid">
+            {{ categoria.categorias }}
+          </ion-select-option>
+        </ion-select>
+      
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button (click)="cadastrar()" expand="block">
+      Salvar produto
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

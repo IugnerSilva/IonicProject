@@ -1,12 +1,48 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
+  <ion-toolbar class="cor-fundo">
+      <button slot="start" class="button">
+          <ion-menu-button> 
+    
+          </ion-menu-button>
+          
+        </button>
+    <ion-title class="title">Home</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="abrirCarrinho()">
+        <ion-icon name="cart" slot="icon-only">
+
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+  <div *ngFor=" let cat of produtos" class="bloco-categoria">
+
+    <ion-row no-padding class="baner-categoria">
+      <ion-col text-left button tappable (click)="cat.expanded = !cat.expanded" align-self-center>
+        {{cat.categoria}}
+      </ion-col>
+    </ion-row>
+
+    <ion-slides [options]="sliderConfig">
+      <ion-slide *ngFor="let produto of produtos">
+        <div *ngIf="cat.expanded">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>
+                {{produto.nome}} -R${{produto.preco}}
+              </ion-card-title>
+              <ion-card-content>
+                 <img [src]="produto.foto">
+                 <ion-button expand="full" (click)="adicionarCarrinho(produto)"> Adicionar </ion-button>
+              </ion-card-content>
+            </ion-card-header>
+          </ion-card>
+        </div>
+      </ion-slide>
+    </ion-slides>
+
+  </div>
 </ion-content>

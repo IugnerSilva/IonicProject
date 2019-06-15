@@ -1,1 +1,43 @@
+.bloco-categoria{
+    margin-bottom: 4px;
+    font-size: 20px;
+    
+}
 
+.baner-categoria{
+
+    border-left: 8px solid var(--ion-color-secondary);
+    background: var(--ion-color-ligth);
+    height: 40px;
+    padding: 10px;
+    font-weight: 500;
+
+}
+
+
+.button{
+
+    background-color: red;
+    color:white;
+
+ }
+
+ion-badge{
+    color: white;
+    position: absolute;
+    top:0px;
+    right: 0px;
+    border-radius: 100%;
+}
+
+
+.cor-fundo{
+    --background: red;
+    color:white;
+}
+
+.title{
+    
+    color: white;
+    font-size: 30px;
+     }

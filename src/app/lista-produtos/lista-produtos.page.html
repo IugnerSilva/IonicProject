@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar class="cor-fundo">
+    <button slot="start" class="button">
+      <ion-menu-button>
+
+      </ion-menu-button>
+
+    </button>
+
+    <ion-title class="title">Produtos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let produto of produtos">
+      <ion-item  >
+        <ion-avatar slot="start">
+          <img [src]="produto.foto">
+        </ion-avatar>
+
+        <ion-label>
+          {{ produto.nome }}
+          <p>{{ produto.descricao }}</p>
+        </ion-label>
+
+        <ion-note color="primary" slot="end" *ngIf="produto.preco">{{ produto.preco | currency: 'BRL' }}</ion-note>
+        
+      </ion-item>
+
+    </ion-item-sliding>
+  </ion-list>
+
+
+</ion-content>
+<ion-row>
+  <ion-button color="danger" (click)="novo()"> Novo produto </ion-button>
+</ion-row>

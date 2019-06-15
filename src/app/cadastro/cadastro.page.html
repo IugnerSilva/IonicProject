@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar class="cor-fundo">
+      <ion-buttons slot="start">
+          <ion-back-button> </ion-back-button>
+        </ion-buttons>
+    <ion-title class="title">Cadastrar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-row>
+        <ion-item class="upload-container">
+            <ion-icon *ngIf="!novoCliente.picture" (click)="tirarFoto()" class="upload-icon" name="contact"></ion-icon>
+            <ion-img *ngIf="novoCliente.picture" [src]="novoCliente.picture"></ion-img>
+        </ion-item>
+    </ion-row>
+    
+
+<ion-row>
+  <ion-item>
+      <ion-label position="floating">Nome completo</ion-label>
+      <ion-input [(ngModel)]="novoCliente.nome" required></ion-input>
+    </ion-item>
+  
+  </ion-row>
+  
+  <ion-row>
+      <ion-item>
+          <ion-label position="floating">CPF</ion-label>
+          <ion-input [(ngModel)]="novoCliente.cpf" required></ion-input>
+        </ion-item>
+  </ion-row>
+  
+  <ion-row>
+  <ion-item>
+      <ion-label position="floating">Telefone/celular</ion-label>
+      <ion-input [(ngModel)]="novoCliente.phone" required></ion-input>
+    </ion-item>
+  
+  </ion-row>
+  
+  <ion-row>
+      <ion-row>
+          <ion-item>
+              <ion-label position="floating">E-mail</ion-label>
+              <ion-input [(ngModel)]="novoCliente.email" required></ion-input>
+            </ion-item>
+          
+      </ion-row>
+  <ion-item>
+      <ion-label position="floating">Senha</ion-label>
+      <ion-input [(ngModel)]="novoCliente.senha" required></ion-input>
+    </ion-item>
+  </ion-row>
+
+
+<ion-row>
+    <ion-button color="danger" (click)="cadastrar()"> Salvar </ion-button>
+</ion-row>
+
+</ion-content>

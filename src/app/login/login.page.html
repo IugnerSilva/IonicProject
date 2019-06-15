@@ -1,0 +1,28 @@
+<ion-content padding>
+
+<div class="fundo">
+
+    <div  class="img">
+      <img src="/assets/img/logo.png" >
+    </div>
+
+<div class="caixa ion-padding">
+    
+  <span class="span">Login</span>
+    
+    <ion-item lines="none" class="ion-margin-top">       
+      <ion-input type="email" placeholder="E-mail" [(ngModel)]="cliente.email" ></ion-input>
+    </ion-item>
+ 
+    <ion-item lines="none" class="ion-margin-top">    
+      <ion-input type="senha"  placeholder="Senha" [(ngModel)]="cliente.senha"></ion-input>
+    </ion-item>
+
+    <ion-button (click)="login()" color="danger" class="butao" class="ion-margin-top"> Entrar </ion-button>
+
+</div>
+
+  <span class="span2"> Ainda não possui uma conta ?</span>
+  <span class="span3" (click)="cadastra()"> Cadastre-se </span>
+</div>
+</ion-content>

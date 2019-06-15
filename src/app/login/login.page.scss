@@ -1,0 +1,74 @@
+   
+
+     /*
+     ion-button{
+         width:80%;
+         height: 40px;
+         padding-top: 10px;
+         font-size: 18px;
+         padding-left: 60px;
+         
+     }*/
+
+ion-item{
+    --background: rgba(255,255,255,0.3);
+    --border-radius: 10px;   
+    color: white;
+}
+
+.caixa{
+    position: absolute;
+    top: 30%;
+    left: 12.5%;
+    width: 75%;
+    color: white;
+    background-color: red;
+    border-radius: 10px;
+    
+}
+
+.span{
+    color: white;
+    position: relative;
+    font-size: 20px;
+    left: 35%;
+}
+
+.fundo{
+    position: absolute;
+    
+    background-image: url("/assets/img/back.png");
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.img{
+
+    width: 60%;
+    margin: 0 auto;
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 50px;
+}
+
+.span2{
+    position: absolute;
+    color: white;
+    left: 20%;
+    top:480px;
+}
+
+.span3{
+    position: absolute;
+    color: white;
+
+    top:510px;
+    left: 37%;
+}
+
+ion-button{
+    width: 100%;
+}
+
