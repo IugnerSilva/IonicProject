@@ -24,23 +24,21 @@ export class LoginPage {
     private database: DBService) {
 
       this.cliente = new Cliente
-
+      
   }
 
   async login() {
-    await this.presentLoading();
 
     try {
+      
+      this.router.navigate(['/cadastrar']);
       this.afa.auth.signInWithEmailAndPassword(this.cliente.email,this.cliente.senha);
     
-      this.router.navigate(['/menu/home']);
 
     } catch (error) {
       this.presentToast(error.message);
 
-    } finally {
-      this.loading.dismiss();
-    }
+    } 
   }
 
   async presentLoading() {
@@ -53,8 +51,8 @@ export class LoginPage {
     toast.present();
   }
 
-  cadastra() {
-    this.router.navigate(['/cadastro'])
+  cadastrar() {
+    this.router.navigate(['/cadastro-cliente'])
   }
 
 }

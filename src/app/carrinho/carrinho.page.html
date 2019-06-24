@@ -12,8 +12,8 @@
 <ion-content padding>
   <ion-list>
 
-    <ion-item *ngFor="let item of selectedItems" lines="inset">
-        {{item.count}} x {{item.nome}} - {{ item.preco | currency:'BRL':'symbol' }}
+    <ion-item *ngFor="let item of items" lines="inset">
+         {{item.nome}} - {{ item.preco | currency:'BRL':'symbol' }}
     <ion-label slot="end" text-rigth>{{ (item.preco * item.count) | currency:'BRL': 'symbol'  </ion-label>
     </ion-item>
 

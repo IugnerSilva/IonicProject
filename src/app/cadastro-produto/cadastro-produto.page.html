@@ -24,9 +24,9 @@
     <ion-item>
       
         <ion-label>Categoria</ion-label>
-        <ion-select [(ngModel)]="novoProduto.categoriaUID">
-          <ion-select-option *ngFor="let categoria of categoriaList" [value]="categoria.uid">
-            {{ categoria.categorias }}
+        <ion-select [(ngModel)]="novoProduto.categoriaId">
+          <ion-select-option *ngFor="let cat of categoriaList" [value]="cat.uid">
+            {{ cat.nome }}
           </ion-select-option>
         </ion-select>
       

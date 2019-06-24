@@ -9,6 +9,9 @@
     <ion-title class="title">Home</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="abrirCarrinho()">
+        <ion-badge *ngIf= "cart.length > 0">
+           {{ cart.length}}
+        </ion-badge>
         <ion-icon name="cart" slot="icon-only">
 
         </ion-icon>
@@ -18,17 +21,17 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngFor=" let cat of produtos" class="bloco-categoria">
+  <div *ngFor=" let cat of categoriaList" class="bloco-categoria">
 
     <ion-row no-padding class="baner-categoria">
       <ion-col text-left button tappable (click)="cat.expanded = !cat.expanded" align-self-center>
-        {{cat.categoria}}
+        {{cat.nome}}
       </ion-col>
     </ion-row>
 
     <ion-slides [options]="sliderConfig">
       <ion-slide *ngFor="let produto of produtos">
-        <div *ngIf="cat.expanded">
+        <div *ngIf="cat.expanded ">
           <ion-card>
             <ion-card-header>
               <ion-card-title>
@@ -36,7 +39,7 @@
               </ion-card-title>
               <ion-card-content>
                  <img [src]="produto.foto">
-                 <ion-button expand="full" (click)="adicionarCarrinho(produto)"> Adicionar </ion-button>
+                 <ion-button expand="full" (click)="addCart(produto)"> Adicionar </ion-button>
               </ion-card-content>
             </ion-card-header>
           </ion-card>

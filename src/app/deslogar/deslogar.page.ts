@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DBService } from '../services/db.services';
+import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-deslogar',
@@ -7,26 +9,44 @@ import { DBService } from '../services/db.services';
   styleUrls: ['./deslogar.page.scss'],
 })
 export class DeslogarPage implements OnInit {
+  
+  carregando = true;
+  
+  loading: any;
 
-  constructor(private database: DBService) {
+  constructor(private database: DBService, private loadingCtrl: LoadingController, private router: Router ) {
 
+    this.carregando = true;
     this.init();
   }
 
+  async presentLoading() {
+    this.loading = await this.loadingCtrl.create({ message: 'Por favor,aguarde...' });
+    return this.loading.present();
+  }
 
   private async init() {
 
+    await this.presentLoading();
+
     try {
 
-      await this.database.deslogar();
-
+      this.database.deslogar();
+      this.carregando = false;
+      
+      
     } catch (error) {
       console.error(error);
+      
+    } finally {
+      this.loading.dismiss();
     }
   }
 
+  
+    
 
-  ngOnInit() {
-  }
+  async ngOnInit() {
 
+}
 }

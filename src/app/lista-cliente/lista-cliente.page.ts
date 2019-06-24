@@ -12,8 +12,8 @@ import { CadastroPage } from '../cadastro/cadastro.page';
   providers: [DBService]
 })
 export class ListaClientePage implements OnInit {
-  clientes: Cliente[];
 
+  clientes: Cliente[];
   carregando = true;
   loading: any;
 
@@ -28,12 +28,11 @@ export class ListaClientePage implements OnInit {
   private async init() {
     this.carregando = true;
 
-    //await this.presentLoading();
+    await this.presentLoading();
     await this.carregarClientes();
   }
 
   private async carregarClientes() {
-    await this.presentLoading();
     this.database.listar<Cliente>('/cliente')
       .then(clientes => {
         this.clientes = clientes;
@@ -51,37 +50,66 @@ export class ListaClientePage implements OnInit {
         this.carregarClientes();
       });
   }
+  
 
-  async editar(cliente: Cliente) {
+  async editar(clientes: Cliente) {
     const modal = await this.modalController.create({
       component: CadastroPage,
       componentProps: {
-        editingCliente: cliente
+        editingCliente: clientes
       }
     });
 
     modal.onDidDismiss()
       .then(result => {
         if (result.data) {
-          alert('Cliente editado com sucesso');
+          this.confirmAdd()
 
         }
       });
 
+      
+    return  await modal.present();
   }
 
   async presentLoading() {
     this.loading = await this.loadingCtrl.create({ message: 'Por favor,aguarde...' });
     return this.loading.present();
   }
+
   async presentToast(message: string) {
     const toast = await this.toastCtrl.create({ message, duration: 2000 });
     toast.present();
   }
 
-  novo() {
-    this.router.navigate(['/cadastro'])
+  
+  async add() {
+    const modal = await this.modalController.create({
+      component: CadastroPage
+    });
+
+    modal.onDidDismiss()
+      .then(result => {
+        if (result.data) {
+          this.confirmAdd();
+        }
+      });
+
+    return  await modal.present();
   }
+
+  private confirmAdd() {
+    this.presentToast('Cliente adicionado com sucesso');
+    this.carregarClientes();
+    this.lista();
+  }
+
+  
+  lista() {
+    this.router.navigate(['/listaCliente'])
+  }
+
+
   ngOnInit() {
   }
 

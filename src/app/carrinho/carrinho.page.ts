@@ -19,13 +19,14 @@ export class CarrinhoPage implements OnInit {
   ngOnInit() {
 
     let items = this.carService.getCart();
+    console.log(items)
     let selected = {};
 
     for (let obj of items) {
-      if (selected[obj.id]) {
-        selected[obj.id].count++;
+      if (selected[obj.uid]) {
+        selected[obj.uid].count++;
       } else {
-        selected[obj.id] = {...obj, count: 1 };
+        selected[obj.uid] = {...obj, count: 1 };
 
       }
     }

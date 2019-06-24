@@ -2,46 +2,59 @@ import { Injectable } from '@angular/core';
 import { Produto } from '../model/produto';
 import { Router } from '@angular/router';
 import { DBService } from './db.services';
-import { ModalController, LoadingController, ToastController } from '@ionic/angular';
-
+import { Carrinho } from '../model/carrinho';
 @Injectable()
 
 export class CarService {
-    private data = [{
-        categoria: "cereais",
-        expanded:true,
-        produtos:[
-            
-            {id:0, nome:'feijao', preco:'5.60'},
-            {id:1, nome:'cuzcuz', preco:'1.60'},
-            {id:2, nome:'arroz', preco:'2.60'},
-        ]
-    },{
-        categoria: "bolacha",
-        produtos:[
 
-            {id:3, nome:'vitarela', preco:'3.20'},
-            {id:4, nome:'pilar', preco:'2.60'},
-            {id:5, nome:'maizena', preco:'3.20'},
+     cart = [];
+    
+    cartList :Carrinho;
+    
+    produtos: Produto[];
 
-        ]
-    }]
+    constructor(private router: Router, 
+        private database: DBService){}
 
-    private cart = [];
+        private data = [{ category: 'Pizza',
+            expanded: true,
+            products: [
+              { id: 0, name: 'Salami', price: '8' },
+              { id: 1, name: 'Classic', price: '5' },
+              { id: 2, name: 'Tuna', price: '9' },
+              { id: 3, name: 'Hawai', price: '7' }
+            ]
+          },
+          {
+            category: 'Pasta',
+            products: [
+              { id: 4, name: 'Mac & Cheese', price: '8' },
+              { id: 5, name: 'Bolognese', price: '6' }
+            ]
+          },
+          {
+            category: 'Salad',
+            products: [
+              { id: 6, name: 'Ham & Egg', price: '8' },
+              { id: 7, name: 'Basic', price: '5' },
+              { id: 8, name: 'Ceaser', price: '9' }
+            ]
+          }
+        ];
 
-    constructor() {
-    }
-
+        
+    
 
     getProdutos(){
-        return this.data;
+        
+        return this.database;
     }
     
-    getCart() {
+    getCart(){
         return this.cart;
     }
 
-    addProduto(produto) {
+    addProduto(produto){
         this.cart.push(produto);
     }
 }

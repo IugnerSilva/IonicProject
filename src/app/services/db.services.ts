@@ -131,20 +131,4 @@ export class DBService {
         return this.afa.auth;
 
       }
-
-      addProduct(produto: Produto) {
-        return this.productsCollection.add(produto);
-      }
-    
-      getProduct(id: string) {
-        return this.productsCollection.doc<Produto>(id).valueChanges();
-      }
-    
-      updateProduct(id: string, product: Produto) {
-        return this.productsCollection.doc<Produto>(id).update(product);
-      }
-    
-      deleteProduct(id: string) {
-        return this.productsCollection.doc(id).delete();
-      }
 }

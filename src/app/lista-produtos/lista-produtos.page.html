@@ -27,6 +27,8 @@
 
         <ion-note color="primary" slot="end" *ngIf="produto.preco">{{ produto.preco | currency: 'BRL' }}</ion-note>
         
+        <ion-icon (click)="remove(produto.uid)" color="danger" name="trash" slot="end"></ion-icon>
+        
       </ion-item>
 
     </ion-item-sliding>

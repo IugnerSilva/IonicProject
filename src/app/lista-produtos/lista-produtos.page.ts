@@ -28,6 +28,13 @@ export class ListaProdutosPage implements OnInit {
     await this.carregarProdutos();
   }
 
+  // carregarcategorias
+  // criararray
+   // percorrerarraycategorias
+  // pecorrerarrayprodutos
+  // jogarnoarraydemassas
+ 
+
   private async carregarProdutos() {
     await this.presentLoading();
     this.database.listar<Produto>('/produtos')

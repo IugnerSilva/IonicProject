@@ -5,6 +5,7 @@ import { Produto } from '../model/produto';
 import { DBService } from '../services/db.services';
 import { ModalController, LoadingController, ToastController } from '@ionic/angular';
 import { Categoria } from '../model/categoria';
+import { Carrinho } from '../model/carrinho';
 
 
 @Component({
@@ -17,10 +18,10 @@ export class HomePage implements OnInit {
 
   
   categoriaList: Categoria[];
-  
 
-  cart = [];
   items = [];
+  
+  cart = [];
 
   sliderConfig = {
 
@@ -29,22 +30,29 @@ export class HomePage implements OnInit {
     slidesPerView: 1.6
   }
   loading: any;
+
   produtos: Produto[];
 
   carregando = true;
 
   constructor(public router: Router,private database: DBService,public modalController: ModalController,
-    private loadingCtrl: LoadingController, private toastCtrl: ToastController, private cartService: CarService) { 
+    private loadingCtrl: LoadingController, private toastCtrl: ToastController, private carService: CarService) { 
       this.init();
   }
 
 
   private async init() {
-    this.carregando = true;
+
+    this.cart = this.carService.getCart();
     
-    
+    this.carregando = true;   
     await this.carregarProdutos();
+    this.loadCategoria();
   }
+
+  private async loadCategoria() {
+    this.categoriaList = await this.database.listWithUIDs<Categoria>('/categorias');
+}
 
   private async carregarProdutos() {
     await this.presentLoading();
@@ -85,13 +93,11 @@ export class HomePage implements OnInit {
     this.router.navigate(['/carrinho']);
   }
 
-  adicionarCarrinho(produto){
-    this.cartService.addProduto(produto);
+    async addCart(produto) {
+      this.carService.addProduto(produto)
+      console.log(" carrinho:" , this.cart)
   }
 
-  private async loadAddressList() {
-    this.categoriaList = await this.database.listWithUIDs<Categoria>('/categoria');
-  }
  
   ngOnInit() {
   }

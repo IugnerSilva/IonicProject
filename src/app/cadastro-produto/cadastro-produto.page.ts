@@ -3,9 +3,6 @@ import { Router } from '@angular/router';
 import { DBService } from '../services/db.services';
 import { ModalController, LoadingController, ToastController } from '@ionic/angular';
 //import { CameraService } from '../services/camera.services';
-import { AngularFireAuth } from '@angular/Fire/auth';
-import { Cliente } from '../model/cliente';
-import { async } from 'q';
 import { Produto } from '../model/produto';
 import { Categoria } from '../model/categoria';
 
@@ -30,15 +27,15 @@ export class CadastroProdutoPage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController) {
     this.novoProduto = new Produto(); { }
-    this.loadAddressList();
+    this.loadCategoria();
   }
 
   ngOnInit() {
   }
 
   
-  private async loadAddressList() {
-    this.categoriaList = await this.database.listWithUIDs<Categoria>('/categoria');
+  private async loadCategoria() {
+    this.categoriaList = await this.database.listWithUIDs<Categoria>('/categorias');
 }
   
   cadastro() {

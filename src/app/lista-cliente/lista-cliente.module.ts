@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ListaClientePage } from './lista-cliente.page';
+import { CadastroPage } from '../cadastro/cadastro.page';
 
 const routes: Routes = [
   {
@@ -21,6 +22,8 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ListaClientePage]
+  
+  declarations: [ListaClientePage, CadastroPage],  
+  entryComponents: [CadastroPage]
 })
 export class ListaClientePageModule {}

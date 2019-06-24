@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { Firebase } from '../provider/firebase/firebase';
+import { Cliente } from '../model/cliente';
 import { Router } from '@angular/router';
 import { DBService } from '../services/db.services';
-import { Cliente } from '../model/cliente';
 import { ModalController, LoadingController, ToastController } from '@ionic/angular';
 import { CameraService } from '../services/camera.services';
+import { AngularFireAuth } from '@angular/Fire/auth';
 import { Camera } from '@ionic-native/camera/ngx';
 import { Base64 } from '@ionic-native/base64/ngx';
-import { AngularFireAuth } from '@angular/Fire/auth';
 
 @Component({
-  selector: 'app-cadastro',
-  templateUrl: './cadastro.page.html',
-  styleUrls: ['./cadastro.page.scss'],
+  selector: 'app-cadastro-cliente',
+  templateUrl: './cadastro-cliente.page.html',
+  styleUrls: ['./cadastro-cliente.page.scss'],
+  
   providers: [DBService, CameraService, Camera, Base64]
 })
-export class CadastroPage {
+export class CadastroClientePage implements OnInit {
 
   novoCliente: Cliente;
 
@@ -38,15 +38,11 @@ export class CadastroPage {
   
   ngOnInit(){
     
-    if (this.editingCliente) {
-        this.novoCliente = this.editingCliente;
-        
-    }
     
 }
   
   cadastro() {
-    this.router.navigate(['/listaCliente'])
+    this.router.navigate(['/login'])
   }
 
   async cadastrar() {
@@ -76,29 +72,6 @@ export class CadastroPage {
     toast.present();
   }
   
-  save() {
-    if (this.editingCliente) {
-        this.edit();
-    } else {
-        this.cadastrar();
-    }
-
-}
-  private edit() {
-    const updatingObject = {  cpf: this.novoCliente.cpf, email: this.novoCliente.email, nome: this.novoCliente.nome,
-                              phone: this.novoCliente.phone, senha: this.novoCliente.senha
-                             };
-
-    this.database.atualizar('/cliente', updatingObject)
-        .then(() => {
-            this.modalController.dismiss(this.novoCliente);
-        }).catch(error => {
-            console.log(error);
-        });
-}
-
-
-
 
 
 }

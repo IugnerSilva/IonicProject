@@ -1,4 +1,4 @@
-export class Produto {
+export class Carrinho {
     uid: string;
     nome: string;
     foto: string;
@@ -7,4 +7,3 @@ export class Produto {
     userId: string;
     categoriaId: string;
 }
-
