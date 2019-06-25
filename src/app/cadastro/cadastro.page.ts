@@ -89,7 +89,7 @@ export class CadastroPage {
                               phone: this.novoCliente.phone, senha: this.novoCliente.senha
                              };
 
-    this.database.atualizar('/cliente', updatingObject)
+    this.database.update('/cliente', updatingObject)
         .then(() => {
             this.modalController.dismiss(this.novoCliente);
         }).catch(error => {

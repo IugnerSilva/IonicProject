@@ -21,11 +21,10 @@ export class ListaClientePage implements OnInit {
   constructor(public router: Router, private database: DBService, public modalController: ModalController,
     private loadingCtrl: LoadingController, private toastCtrl: ToastController) {
 
-    this.init();
   }
 
-
-  private async init() {
+  async ngOnInit() {
+    
     this.carregando = true;
 
     await this.presentLoading();
@@ -109,8 +108,5 @@ export class ListaClientePage implements OnInit {
     this.router.navigate(['/listaCliente'])
   }
 
-
-  ngOnInit() {
-  }
 
 }

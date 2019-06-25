@@ -14,25 +14,33 @@ import { Categoria } from '../model/categoria';
 export class CadastroProdutoPage implements OnInit {
 
   novoProduto: Produto;
+  
+
+  editingProduto: Produto;
 
   produtos: Produto[];
   categoriaList: Categoria[];
 
   carregando = true;
   private loading: any;
+  delete: string;
 
 
   constructor(public router: Router, private database: DBService,
     public modalController: ModalController,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController) {
-    this.novoProduto = new Produto(); { }
+    this.novoProduto = new Produto(); 
     this.loadCategoria();
   }
 
-  ngOnInit() {
+  ngOnInit(){
+    
+    if (this.editingProduto) {
+        this.novoProduto = this.editingProduto;
+        
+    }
   }
-
   
   private async loadCategoria() {
     this.categoriaList = await this.database.listWithUIDs<Categoria>('/categorias');
@@ -48,9 +56,10 @@ export class CadastroProdutoPage implements OnInit {
       .then(() => {
 
         this.presentToast('Produto adicionado com sucesso !');
+        this.router.navigate(['/listaProdutos'])
         this.novoProduto = new Produto();
         this.loading.dismiss();
-        this.cadastro();
+        
 
       });
   }
@@ -61,9 +70,40 @@ export class CadastroProdutoPage implements OnInit {
   }
 
   async presentToast(message: string) {
-    const toast = await this.toastCtrl.create({ message, duration: 2000 });
+    const toast = await this.toastCtrl.create({ message, duration: 1000 });
     toast.present();
   }
+  
+  remove(uid: string) {
+    this.database.remover('/produtos', uid)
+      .then(() => {
+        this.presentToast('Produto removido com sucesso !');
+      });
+  }
+  
+  save() {
+    if (this.editingProduto) {
+        this.remove(this.delete);
+        this.edit();
+    } else {
+        this.cadastrar();
+    }
+
+
+}
+  private edit() {
+    const updatingObject = {  foto: this.novoProduto.foto, preco: this.novoProduto.preco, nome: this.novoProduto.nome,
+                              descricao: this.novoProduto.descricao, categoriaId: this.novoProduto.categoriaId
+                             };
+
+    this.database.update('/produtos', updatingObject)
+        .then(() => {
+            this.modalController.dismiss(this.novoProduto);
+        }).catch(error => {
+            console.log(error);
+        });
+}
+
 
 
 }

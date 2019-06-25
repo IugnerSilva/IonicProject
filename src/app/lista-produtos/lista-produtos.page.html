@@ -27,6 +27,8 @@
 
         <ion-note color="primary" slot="end" *ngIf="produto.preco">{{ produto.preco | currency: 'BRL' }}</ion-note>
         
+        
+        <ion-icon (click)="editar(produto)" color="blue" name="create" slot="end"></ion-icon>
         <ion-icon (click)="remove(produto.uid)" color="danger" name="trash" slot="end"></ion-icon>
         
       </ion-item>
@@ -37,5 +39,5 @@
 
 </ion-content>
 <ion-row>
-  <ion-button color="danger" (click)="novo()"> Novo produto </ion-button>
+  <ion-button color="danger" (click)="add()"> Novo produto </ion-button>
 </ion-row>

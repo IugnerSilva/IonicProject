@@ -1,58 +1,63 @@
 import { Component, OnInit } from '@angular/core';
-import { CarService } from '../services/carrinho.services';
 import { Router } from '@angular/router';
-import { Produto } from '../model/produto';
+import { CarService } from '../services/carrinho.services';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { DBService } from '../services/db.services';
-import { ModalController, LoadingController, ToastController } from '@ionic/angular';
+import { Produto } from '../model/produto';
 import { Categoria } from '../model/categoria';
-import { Carrinho } from '../model/carrinho';
-
-
+ 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
-  providers: [CarService]
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-
+ 
+  cart = [];
+  items = [];
+ 
+  sliderConfig = {
+    slidesPerView: 1.6,
+    centeredSlides: true
+  };
+  
+  loading: any;
+  
+  produtos: Produto[];
   
   categoriaList: Categoria[];
 
-  items = [];
-  
-  cart = [];
-
-  sliderConfig = {
-
-    spaceBetween: 10,
-    centeredSlides: true,
-    slidesPerView: 1.6
-  }
-  loading: any;
-
-  produtos: Produto[];
-
   carregando = true;
-
-  constructor(public router: Router,private database: DBService,public modalController: ModalController,
-    private loadingCtrl: LoadingController, private toastCtrl: ToastController, private carService: CarService) { 
-      this.init();
-  }
-
-
-  private async init() {
-
-    this.cart = this.carService.getCart();
-    
+ 
+  constructor(private router: Router, private cartService: CarService,
+              private loadingCtrl: LoadingController, private toastCtrl: ToastController,
+              private database: DBService) {  }
+ 
+  async ngOnInit() {
+    this.cart = this.cartService.getCart();     
     this.carregando = true;   
     await this.carregarProdutos();
     this.loadCategoria();
   }
+ 
+  addToCart(product) {
+    this.cartService.addProdutos(product);
+  }
+ 
+  openCart() {
+    this.router.navigate(['carrinho']);
+  }
 
-  private async loadCategoria() {
-    this.categoriaList = await this.database.listWithUIDs<Categoria>('/categorias');
-}
+  
+  async presentLoading() {
+    this.loading = await this.loadingCtrl.create({ message: 'Por favor,aguarde...' });
+    return this.loading.present();
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastCtrl.create({ message, duration: 2000 });
+    toast.present();
+  }
 
   private async carregarProdutos() {
     await this.presentLoading();
@@ -74,32 +79,9 @@ export class HomePage implements OnInit {
       });
   }
 
-
-  async presentLoading() {
-    this.loading = await this.loadingCtrl.create({ message: 'Por favor,aguarde...' });
-    return this.loading.present();
+  private async loadCategoria() {
+    this.categoriaList = await this.database.listWithUIDs<Categoria>('/categorias');
+}
+  private async init() {
   }
-
-  async presentToast(message: string) {
-    const toast = await this.toastCtrl.create({ message, duration: 2000 });
-    toast.present();
-  }
-
-  novo() {
-    this.router.navigate(['/cadastroProduto'])
-  }
-
-  abrirCarrinho(){
-    this.router.navigate(['/carrinho']);
-  }
-
-    async addCart(produto) {
-      this.carService.addProduto(produto)
-      console.log(" carrinho:" , this.cart)
-  }
-
- 
-  ngOnInit() {
-  }
-
 }

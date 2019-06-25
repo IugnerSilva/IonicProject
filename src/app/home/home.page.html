@@ -8,7 +8,7 @@
         </button>
     <ion-title class="title">Home</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="abrirCarrinho()">
+      <ion-button (click)="openCart()">
         <ion-badge *ngIf= "cart.length > 0">
            {{ cart.length}}
         </ion-badge>
@@ -19,33 +19,33 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-content padding>
-  <div *ngFor=" let cat of categoriaList" class="bloco-categoria">
-
-    <ion-row no-padding class="baner-categoria">
+ 
+<ion-content>
+  <div *ngFor="let cat of categoriaList" class="category-block">
+ 
+    <ion-row no-padding class="category-banner">
       <ion-col text-left button tappable (click)="cat.expanded = !cat.expanded" align-self-center>
-        {{cat.nome}}
+        {{ cat.nome }}
       </ion-col>
     </ion-row>
-
+ 
     <ion-slides [options]="sliderConfig">
-      <ion-slide *ngFor="let produto of produtos">
-        <div *ngIf="cat.expanded ">
+      <ion-slide *ngFor="let product of produtos">
+        <div *ngIf="cat.expanded && product.categoriaId == cat.uid">
           <ion-card>
             <ion-card-header>
               <ion-card-title>
-                {{produto.nome}} -R${{produto.preco}}
+                {{ product.nome }} - ${{ product.preco }}
               </ion-card-title>
               <ion-card-content>
-                 <img [src]="produto.foto">
-                 <ion-button expand="full" (click)="addCart(produto)"> Adicionar </ion-button>
+                <img [src]="product.foto">
+                <ion-button class="button" expand="full" (click)="addToCart(product)">Adicionar</ion-button>
               </ion-card-content>
             </ion-card-header>
           </ion-card>
         </div>
       </ion-slide>
     </ion-slides>
-
+ 
   </div>
 </ion-content>

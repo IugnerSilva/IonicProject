@@ -1,8 +1,9 @@
 <ion-header>
   <ion-toolbar class="cor-fundo">
-
-
-    <ion-title class="title">Produto</ion-title>
+      <ion-buttons slot="start">
+          <ion-back-button> </ion-back-button>
+        </ion-buttons>
+    <ion-title class="title">Cadastrar Produto</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -36,7 +37,7 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-button (click)="cadastrar()" expand="block">
+    <ion-button (click)="save()" expand="block">
       Salvar produto
     </ion-button>
   </ion-toolbar>

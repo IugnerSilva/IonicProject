@@ -10,16 +10,12 @@ const routes: Routes = [
 
   { path: 'listaCliente',
      loadChildren: './lista-cliente/lista-cliente.module#ListaClientePageModule', canActivate: [AuthGuard]},
-     
-  { path: 'cadastroProduto', 
-      loadChildren: './cadastro-produto/cadastro-produto.module#CadastroProdutoPageModule',canActivate: [AuthGuard] },
-
+  
   { path: 'listaProdutos', loadChildren: './lista-produtos/lista-produtos.module#ListaProdutosPageModule', canActivate: [AuthGuard] },
   { path: 'home', loadChildren: './home/home.module#HomePageModule' , canActivate: [AuthGuard]},
   { path: 'deslogar', loadChildren: './deslogar/deslogar.module#DeslogarPageModule', canActivate: [AuthGuard] },
   { path: 'carrinho', loadChildren: './carrinho/carrinho.module#CarrinhoPageModule', canActivate: [AuthGuard] },
   { path: 'cadastrar', loadChildren: './cadastrar/cadastrar.module#CadastrarPageModule' },
-  { path: 'cadastro-cliente', loadChildren: './cadastro-cliente/cadastro-cliente.module#CadastroClientePageModule' },
 ];
 
 @NgModule({

@@ -26,9 +26,12 @@ export class DBService {
         });
     }
 
-    atualizar(path: string, object): Promise<void> {
+    
+    
+    update(path: string, object): Promise<void> {
         return this.db.object(path).update(object);
     }
+
 
     remover(caminho: string, uid: string): Promise<void> {
         return this.db.object(`${caminho}/${uid}`).remove();
