@@ -89,9 +89,11 @@ export class CadastroPage {
                               phone: this.novoCliente.phone, senha: this.novoCliente.senha
                              };
 
-    this.database.update('/cliente', updatingObject)
+    this.database.update('/cliente/'+this.novoCliente.uid, updatingObject)
         .then(() => {
             this.modalController.dismiss(this.novoCliente);
+            this.presentToast('Cliente alterado com sucesso!');
+            
         }).catch(error => {
             console.log(error);
         });

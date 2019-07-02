@@ -62,7 +62,6 @@ export class ListaClientePage implements OnInit {
     modal.onDidDismiss()
       .then(result => {
         if (result.data) {
-          this.confirmAdd()
 
         }
       });

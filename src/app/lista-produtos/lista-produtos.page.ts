@@ -17,7 +17,7 @@ export class ListaProdutosPage implements OnInit {
   carregando = true;
 
   constructor(public router: Router,private database: DBService,public modal: ModalController,
-    private loadingCtrl: LoadingController, private toastCtrl: ToastController, public navParams: NavParams) { 
+    private loadingCtrl: LoadingController, private toastCtrl: ToastController, ) { 
 
   }
  
@@ -65,6 +65,7 @@ export class ListaProdutosPage implements OnInit {
       .then(result => {
         if (result.data) {
           this.confirmAdd();
+          
         }
       });
 
@@ -75,6 +76,24 @@ export class ListaProdutosPage implements OnInit {
     this.presentToast('Produto adicionado com sucesso');
     this.carregarProdutos();
     
+  }
+  async editar(produtos: Produto) {
+    const modal = await this.modal.create({
+      component: CadastroProdutoPage,
+      componentProps: {
+        editingProdutos: produtos
+      }
+    });
+
+    modal.onDidDismiss()
+      .then(result => {
+        if (result.data) {
+
+        }
+      });
+
+      
+    return  await modal.present();
   }
 
 

@@ -17,6 +17,14 @@
       Total: <span slot="end">{{ total | currency:'BRL':'symbol' }}</span>
     </ion-item>
   </ion-list>
+
+  <ion-item>
+          <ion-input [(ngModel)]="selectedItems.Cliente" placeholder="Nome" required></ion-input>     
+    </ion-item>
+
+    <ion-item>
+      <ion-input [(ngModel)]="selectedItems.endereco" placeholder="Endereco" required></ion-input>     
+</ion-item>
 </ion-content>
 
 <ion-row>

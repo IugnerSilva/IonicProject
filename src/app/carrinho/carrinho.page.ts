@@ -6,6 +6,7 @@ import { LoadingController, ToastController } from '@ionic/angular';
 import { Produto } from '../model/produto';
 import { DBService } from '../services/db.services';
 import { Router } from '@angular/router';
+import { Cliente } from '../model/cliente';
  
 @Component({
   selector: 'app-cart',
@@ -16,6 +17,7 @@ export class CarrinhoPage implements OnInit {
  
   selectedItems = [];
   
+  clientes: Cliente[];
   carregando = true;
   private loading: any;
   novoCarrinho: Carrinho;
@@ -40,12 +42,13 @@ export class CarrinhoPage implements OnInit {
     }
     this.selectedItems = Object.keys(selected).map(key => selected[key])
     this.total = this.selectedItems.reduce((a, b) => a + (b.quantidade * b.preco), 0);
+    this.carregarClientes()
   }
 
   
   async comprar() {
     await this.presentLoading();
-    this.database.inserir('mensagens', this.selectedItems)
+    this.database.inserir('carrinho', this.selectedItems)
       .then(() => {
 
         this.presentToast('Produto solicitado com sucesso !');
@@ -54,6 +57,17 @@ export class CarrinhoPage implements OnInit {
         this.loading.dismiss();
         
 
+      });
+  }
+
+  private async carregarClientes() {
+    this.database.listar<Cliente>('/cliente')
+      .then(clientes => {
+        this.clientes = clientes;
+        this.carregando = false;
+        this.loading.dismiss();
+      }).catch(error => {
+        console.log(error);
       });
   }
 

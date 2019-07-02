@@ -31,7 +31,7 @@ export class LoginPage {
 
     try {
       
-      this.router.navigate(['/cadastrar']);
+      this.router.navigate(['/home']);
       this.afa.auth.signInWithEmailAndPassword(this.cliente.email,this.cliente.senha);
     
 
@@ -52,7 +52,7 @@ export class LoginPage {
   }
 
   cadastrar() {
-    this.router.navigate(['/cadastro-cliente'])
+    this.router.navigate(['/cadastrar'])
   }
 
 }

@@ -16,7 +16,7 @@ export class CadastroProdutoPage implements OnInit {
   novoProduto: Produto;
   
 
-  editingProduto: Produto;
+  editingProdutos: Produto;
 
   produtos: Produto[];
   categoriaList: Categoria[];
@@ -36,8 +36,8 @@ export class CadastroProdutoPage implements OnInit {
 
   ngOnInit(){
     
-    if (this.editingProduto) {
-        this.novoProduto = this.editingProduto;
+    if (this.editingProdutos) {
+        this.novoProduto = this.editingProdutos;
         
     }
   }
@@ -54,13 +54,25 @@ export class CadastroProdutoPage implements OnInit {
     await this.presentLoading();
     this.database.inserir('produtos', this.novoProduto)
       .then(() => {
-
+        this.modalController.dismiss(this.novoProduto);        
         this.presentToast('Produto adicionado com sucesso !');
         this.router.navigate(['/listaProdutos'])
         this.novoProduto = new Produto();
         this.loading.dismiss();
         
 
+      });
+  }
+
+  private async carregarProdutos() {
+    await this.presentLoading();
+    this.database.listar<Produto>('/produtos')
+      .then(produtos => {
+        this.produtos = produtos;
+        this.carregando = false;
+        this.loading.dismiss();
+      }).catch(error => {
+        console.log(error);
       });
   }
 
@@ -82,8 +94,7 @@ export class CadastroProdutoPage implements OnInit {
   }
   
   save() {
-    if (this.editingProduto) {
-        this.remove(this.delete);
+    if (this.editingProdutos) {
         this.edit();
     } else {
         this.cadastrar();
@@ -96,7 +107,7 @@ export class CadastroProdutoPage implements OnInit {
                               descricao: this.novoProduto.descricao, categoriaId: this.novoProduto.categoriaId
                              };
 
-    this.database.update('/produtos', updatingObject)
+    this.database.update('/produtos/'+this.novoProduto.uid, updatingObject)
         .then(() => {
             this.modalController.dismiss(this.novoProduto);
         }).catch(error => {
