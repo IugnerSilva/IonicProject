@@ -17,6 +17,7 @@ import {environment} from '../environments/environment';
 import {AngularFireAuth} from '@angular/Fire/auth';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import { DBService } from './services/db.services';
+import { CartModalPageModule } from './cart-modal/cart-modal.module';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { DBService } from './services/db.services';
     IonicModule.forRoot(),AppRoutingModule,
      AngularFireModule.initializeApp(environment.firebase),
       AppRoutingModule,
-      AngularFireStorageModule
+      AngularFireStorageModule,
+      CartModalPageModule
      
     ],
   providers: [

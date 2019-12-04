@@ -21,6 +21,7 @@ export class ListaClientePage implements OnInit {
   constructor(public router: Router, private database: DBService, public modalController: ModalController,
     private loadingCtrl: LoadingController, private toastCtrl: ToastController) {
 
+
   }
 
   async ngOnInit() {

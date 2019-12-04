@@ -1,34 +1,33 @@
 <ion-header>
   <ion-toolbar class="cor-fundo">
-      <button slot="start" class="button">
-          <ion-menu-button> 
-    
-          </ion-menu-button>
-          
-        </button>
+    <button slot="start" class="button">
+      <ion-menu-button>
+
+      </ion-menu-button>
+
+    </button>
     <ion-title class="title">Home</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="openCart()">
-        <ion-badge *ngIf= "cart.length > 0">
-           {{ cart.length}}
+        <ion-badge *ngIf="cart.length > 0">
+          {{ cart.length}}
         </ion-badge>
         <ion-icon name="cart" slot="icon-only">
-
         </ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
- 
+
 <ion-content>
   <div *ngFor="let cat of categoriaList" class="category-block">
- 
+
     <ion-row no-padding class="category-banner">
       <ion-col text-left button tappable (click)="cat.expanded = !cat.expanded" align-self-center>
         {{ cat.nome }}
       </ion-col>
     </ion-row>
- 
+
     <ion-slides [options]="sliderConfig">
       <ion-slide *ngFor="let product of produtos">
         <div *ngIf="cat.expanded && product.categoriaId == cat.uid">
@@ -38,14 +37,23 @@
                 {{ product.nome }} - ${{ product.preco }}
               </ion-card-title>
               <ion-card-content>
+
                 <img [src]="product.foto">
-                <ion-button class="button" expand="full" (click)="addToCart(product)">Adicionar</ion-button>
+                
+                <ion-icon name="remove-circle" color="danger" (click)="removeToCart(product)"></ion-icon>
+                
+                <div *ngFor="let item of selectedItems">
+                  <div *ngIf="product.uid == item.uid">
+                    {{ item.quantidade }}
+                  </div>
+                </div>
+                <ion-icon name="add-circle" color="primary" expand="full" (click)="addToCart(product)"></ion-icon>
               </ion-card-content>
             </ion-card-header>
           </ion-card>
         </div>
       </ion-slide>
     </ion-slides>
- 
+
   </div>
 </ion-content>

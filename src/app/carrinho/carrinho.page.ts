@@ -35,7 +35,6 @@ export class CarrinhoPage implements OnInit {
     for (let obj of items) {
       if (selected[obj.uid]) {
         selected[obj.uid].quantidade++;
-        selected[obj.userId]
       } else {
         selected[obj.uid] = {...obj, quantidade: 1};
       }
