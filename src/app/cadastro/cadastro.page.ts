@@ -44,9 +44,8 @@ export class CadastroPage {
     }
     
 }
-  
-  cadastro() {
-    this.router.navigate(['/listaCliente'])
+  voltar(){
+      this.modalController.dismiss(this.novoCliente);
   }
 
   async cadastrar() {
@@ -54,17 +53,13 @@ export class CadastroPage {
     this.afa.auth.createUserWithEmailAndPassword(this.novoCliente.email,this.novoCliente.senha)
     this.database.inserir('cliente', this.novoCliente)
       .then(() => {
-        //this.presentToast(message);
         this.novoCliente = new Cliente();
         this.loading.dismiss();
-        this.cadastro();
+        this.modalController.dismiss(this.novoCliente);
+        this.presentToast('Cliente cadastrado com sucesso!');
       });
   }
 
-
-  async tirarFoto() {
-    this.novoCliente.picture = await this.cameraService.tirarFoto();
-  }
 
   async presentLoading() {
     this.loading = await this.loadingCtrl.create({ message: 'Por favor, aguarde ...' });

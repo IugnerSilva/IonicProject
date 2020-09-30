@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController, LoadingController, ToastController } from '@ionic/angular';
-import { CadastroPage } from '../cadastro/cadastro.page';
+import { Component, EventEmitter} from '@angular/core';
+import {LoadingController, ToastController, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Cliente } from '../model/cliente';
 import { AngularFireAuth } from '@angular/Fire/auth';
 import { DBService } from '../services/db.services';
+import { AuthService } from '../services/auth.services';
 
 
 @Component({
@@ -17,28 +17,32 @@ export class LoginPage {
 
   private loading: any;
   cliente:Cliente;
-
+  usuarioId: string;
+  uid:string;
+  user: any;
+  usuarioLogado = new EventEmitter<boolean>();
+  logado = new EventEmitter<boolean>();
 
   constructor(private router: Router, private loadingCtrl: LoadingController, private toastCtrl: ToastController,
-    private afa:AngularFireAuth,
-    private database: DBService) {
+    private afa:AngularFireAuth, private auth:AuthService, private menu: MenuController) {
 
       this.cliente = new Cliente
       
   }
 
   async login() {
+    await this.auth.fazerLogin(this.cliente);
+  }
 
-    try {
-      
-      this.router.navigate(['/home']);
-      this.afa.auth.signInWithEmailAndPassword(this.cliente.email,this.cliente.senha);
+  ionViewDidEnter(){
+    this.menu.enable(false)
     
+    this.cliente = new Cliente
+  }
 
-    } catch (error) {
-      this.presentToast(error.message);
-
-    } 
+  ionViewWillLeave(){
+    this.menu.enable(true)
+    
   }
 
   async presentLoading() {

@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { LoginPage } from './login.page';
-import { CadastroPage } from '../cadastro/cadastro.page';
 
 @NgModule({
   imports: [

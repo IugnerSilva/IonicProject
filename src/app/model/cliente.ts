@@ -6,4 +6,8 @@ export class Cliente {
     email: string;
     phone: string;
     picture: string;
+    perfilUID: string;
 }
+
+
+

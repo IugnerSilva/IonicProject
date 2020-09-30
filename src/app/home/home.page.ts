@@ -5,6 +5,10 @@ import { LoadingController, ToastController } from '@ionic/angular';
 import { DBService } from '../services/db.services';
 import { Produto } from '../model/produto';
 import { Categoria } from '../model/categoria';
+import { CarrinhoPage } from '../carrinho/carrinho.page';
+import { AngularFireAuth } from '@angular/Fire/auth';
+import { AuthService } from '../services/auth.services';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-home',
@@ -13,74 +17,82 @@ import { Categoria } from '../model/categoria';
 })
 export class HomePage implements OnInit {
 
-  cart = [];
+  cart: Produto[];
   items = [];
+  cpf:string;
 
   sliderConfig = {
-    spaceBetween:10,
-    slidesPerView: 1.6,
+    spaceBetween: 0,
+    slidesPerView: 1.0,
     centeredSlides: true
   };
 
   loading: any;
 
-  produtos: Produto[];
+  bebidas: Produto[];
+  alimentos: Produto[];
+  limpeza: Produto[];
 
   selectedItems = [];
   categoriaList: Categoria[];
+  
+  administrador: boolean;
 
   carregando = true;
+  LoginPage: any;
 
   constructor(private router: Router, private cartService: CarService,
     private loadingCtrl: LoadingController, private toastCtrl: ToastController,
-    private database: DBService) { }
+    private database: DBService,private afa:AngularFireAuth,private auth:AuthService,
+    private app: AppComponent) { 
+
+      
+    }
 
   async ngOnInit() {
     this.cart = this.cartService.getCart();
     this.carregando = true;
-    await this.carregarProdutos();
+    
+    await this.carregarBebidas();
+    await this.carregarAlimentos();
+    await this.carregarLimpeza();
     this.loadCategoria();
-
+    this.carregarUsuario();
+    this.app.inicializarDadosLogin();
   }
 
-  async quant() {
-    let items = this.cartService.getCart();
-    let selected = {};
-    for (let obj of items) {
-      if (selected[obj.uid]) {
-        selected[obj.uid].quantidade++;
-      } else {
-        selected[obj.uid] = { ...obj, quantidade: 1 };
+  decrementarProduto(product) {
+    for(let [index,p] of this.cart.entries()){
+      if(p.uid===product.uid){
+        p.amount-=1;
+        if(p.amount==0){
+          this.cart.splice(index,1);
+        }
       }
     }
-    this.selectedItems = Object.keys(selected).map(key => selected[key])
-
-  }
-
-  removeItem() {
-    let items = this.cartService.getCart();
-    let selected = {};
-    for (let obj of items) {
-      if (selected[obj.uid]) {
-        selected[obj.uid].quantidade--;
-        
-    this.cart = this.cartService.getCart();
-      }
-    }
-    this.selectedItems = Object.keys(selected).map(key => selected[key])
-
   }
 
   addToCart(product) {
-    this.cartService.addProdutos(product);
-    this.quant();
-  }
+    
+    let added =false;
+    let items = this.cart;
+    for(let p of items){
+      if(p.uid === product.uid){
+        p.amount++;
 
-  removeToCart(product) {
-
-    this.cartService.removeProduto(product);
-
-  }
+        added = true;
+        
+      console.log(p.amount)
+        break;
+      }
+    }
+    if(!added){
+      this.cart.push(product);
+      product.amount = 1;
+      
+      console.log("cadastrou") 
+    }
+    } 
 
   openCart() {
     this.router.navigate(['carrinho']);
@@ -96,11 +108,43 @@ export class HomePage implements OnInit {
     toast.present();
   }
 
-  private async carregarProdutos() {
+  remove(uid: string) {
+    this.database.remover('/produtos', uid)
+      .then(() => {
+        this.presentToast('Produto removido com sucesso !');
+        //this.carregarProdutos();
+      });
+  }
+
+  private async loadCategoria() {
+    this.categoriaList = await this.database.listWithUIDs<Categoria>('/categorias');
+  }
+
+  private async carregarBebidas() {
     await this.presentLoading();
-    this.database.listar<Produto>('/produtos')
-      .then(produtos => {
-        this.produtos = produtos;
+    this.database.listar<Produto>('/produtos/bebidas')
+      .then(bebidas => {
+        this.bebidas = bebidas;
+        this.carregando = false;
+        this.loading.dismiss();
+      }).catch(error => {
+        console.log(error);
+      });
+  }
+  private async carregarAlimentos() {
+    this.database.listar<Produto>('/produtos/alimentos')
+      .then(alimentos => {
+        this.alimentos = alimentos;
+        this.carregando = false;
+        this.loading.dismiss();
+      }).catch(error => {
+        console.log(error);
+      });
+  }
+  private async carregarLimpeza() {
+    this.database.listar<Produto>('/produtos/limpeza')
+      .then(limpeza => {
+        this.limpeza = limpeza;
         this.carregando = false;
         this.loading.dismiss();
       }).catch(error => {
@@ -108,15 +152,12 @@ export class HomePage implements OnInit {
       });
   }
 
-  remove(uid: string) {
-    this.database.remover('/produtos', uid)
-      .then(() => {
-        this.presentToast('Produto removido com sucesso !');
-        this.carregarProdutos();
-      });
+  carregarUsuario(){
+    var user = this.afa.auth.currentUser;
+      if (user != null) {
+     
+      this.cpf = user.uid
+    console.log('id usuario'+this.cpf)}
   }
 
-  private async loadCategoria() {
-    this.categoriaList = await this.database.listWithUIDs<Categoria>('/categorias');
-  }
 }

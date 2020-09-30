@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ListaProdutosPage } from './lista-produtos.page';
 import { CadastroProdutoPage } from '../cadastro-produto/cadastro-produto.page';
+import { DetalhesPage } from '../detalhes/detalhes.page';
 
 const routes: Routes = [
   {
@@ -22,7 +23,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ListaProdutosPage, CadastroProdutoPage],  
-  entryComponents: [CadastroProdutoPage]
+  declarations: [ListaProdutosPage, CadastroProdutoPage,DetalhesPage],  
+  entryComponents: [CadastroProdutoPage,DetalhesPage]
 })
 export class ListaProdutosPageModule {}

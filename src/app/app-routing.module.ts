@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { LoggedGuard } from './guards/login.guard';
-import { CartModalPageModule } from './cart-modal/cart-modal.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -17,12 +16,17 @@ const routes: Routes = [
   { path: 'deslogar', loadChildren: './deslogar/deslogar.module#DeslogarPageModule', canActivate: [AuthGuard] },
   { path: 'carrinho', loadChildren: './carrinho/carrinho.module#CarrinhoPageModule', canActivate: [AuthGuard] },
   { path: 'cadastrar', loadChildren: './cadastrar/cadastrar.module#CadastrarPageModule' },
-  { path: 'home2', loadChildren: './home2/home2.module#Home2PageModule' },
-  { path: 'cart-modal', loadChildren: './cart-modal/cart-modal.module#CartModalPageModule' },
-];
+  { path: 'pedidos', loadChildren: './pedidos/pedidos.module#PedidosPageModule' },
+  { path: 'pedido-cliente', loadChildren: './pedido-cliente/pedido-cliente.module#PedidoClientePageModule' },
+  { path: 'categorias', loadChildren: './categorias/categorias.module#CategoriasPageModule' },
+  { path: 'historico-cliente', loadChildren: './historico-cliente/historico-cliente.module#HistoricoClientePageModule' },
+  { path: 'cadastro-perfil', loadChildren: './cadastro-perfil/cadastro-perfil.module#CadastroPerfilPageModule' },
+  { path: 'cadastro-admin', loadChildren: './cadastro-admin/cadastro-admin.module#CadastroAdminPageModule' },
+  { path: 'lista-admin', loadChildren: './lista-admin/lista-admin.module#ListaAdminPageModule' },
+  ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{preloadingStrategy:PreloadAllModules}), CartModalPageModule],
+  imports: [RouterModule.forRoot(routes,{preloadingStrategy:PreloadAllModules})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

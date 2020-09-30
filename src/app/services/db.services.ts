@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/Fire/auth';
 import { Cliente } from '../model/cliente';
-import { Produto } from '../model/produto';
-import {  AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -13,9 +11,58 @@ export class DBService {
 
     expanded:true;
 
-  private productsCollection: AngularFirestoreCollection<Produto>;
-
     constructor(public db: AngularFireDatabase, private afa:AngularFireAuth) { 
+    }
+
+    insertInList<Type>(entity: string, object: Type): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            this.db.list<Type>(`/${entity}`)
+                .push(object)
+                .then(item => resolve(item.key));
+        });
+    }
+
+    getObject<Type>(entity: string): Promise<Type> {
+        return new Promise<Type>((resolve, reject) => {
+            this.db.object<Type>(`/${entity}`)
+                .valueChanges()
+                .subscribe(
+                    result => resolve(result),
+                    error => reject(error)
+                );
+        });
+    }
+    getObjectByKey<Type>(entity: string, uid: string): Promise<Type> {
+        return new Promise<Type>((resolve, reject) => {
+            this.getObject<Type>(`/${entity}/${uid}`)
+                .then(object => {
+                    if (object) {
+                        object['uid'] = uid;
+                    }
+                    resolve(object);
+                }).catch(error => reject(error));
+        });
+    }
+
+    search<Type>(entity: string, filterProperty: string, filterValue: any): Promise<Type[]> {
+        return new Promise<Type[]>((resolve, reject) => {
+            this.db.list<Type>(`/${entity}`, ref => ref.orderByChild(filterProperty).equalTo(filterValue))
+                .snapshotChanges()
+                .subscribe(
+                    items => {
+                        const typedItems: Type[] = [];
+
+                        items.forEach(item => {
+                            const typedItem: Type = item.payload.val();
+                            typedItem['uid'] = item.key;
+                            typedItems.push(typedItem);
+                        });
+
+                        resolve(typedItems);
+                    },
+                    error => reject(error)
+                );
+        });
     }
 
     inserir<Type>(caminho: string, objeto: Type): Promise<string> {
@@ -123,11 +170,6 @@ export class DBService {
 
         return this.afa.auth.signInWithEmailAndPassword(cliente.senha,cliente.email);
     
-      }
-
-      deslogar(){
-
-        return this.afa.auth.signOut();
       }
 
       getAuth(){

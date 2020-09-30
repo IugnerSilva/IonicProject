@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar class="cor-fundo">
+    <button slot="start" class="button">
+      <ion-menu-button>
+
+      </ion-menu-button>
+
+    </button>
+    <ion-title class="title">Cadastrar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>    
+
+<ion-row>
+  <ion-item>
+      <ion-label position="floating">Nome completo</ion-label>
+      <ion-input [(ngModel)]="novoAdmin.nome" required></ion-input>
+    </ion-item>
+  
+  </ion-row>
+  
+  <ion-row>
+      <ion-item>
+          <ion-label position="floating">CPF</ion-label>
+          <ion-input [(ngModel)]="novoAdmin.cpf" required></ion-input>
+        </ion-item>
+  </ion-row>
+  
+  <ion-row>
+  <ion-item>
+      <ion-label position="floating">Telefone/celular</ion-label>
+      <ion-input [(ngModel)]="novoAdmin.phone" required></ion-input>
+    </ion-item>
+  
+  </ion-row>
+  
+  <ion-row>
+      <ion-row>
+          <ion-item>
+              <ion-label position="floating">E-mail</ion-label>
+              <ion-input [(ngModel)]="novoAdmin.email" required></ion-input>
+            </ion-item>
+          
+      </ion-row>
+  <ion-item>
+      <ion-label position="floating">Senha</ion-label>
+      <ion-input [(ngModel)]="novoAdmin.senha" required></ion-input>
+    </ion-item>
+  </ion-row>
+
+
+<ion-row>
+  <ion-item>
+    <ion-label>Perfil</ion-label>
+    <ion-select name="perfil" [(ngModel)]="novoAdmin.profileUID" placeholder="Selecione um perfil">
+      <ion-select-option *ngFor="let perfil of perfis" value="{{perfil.uid}}">{{perfil.description}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-row>
+
+<ion-row>
+
+  <button [disabled]="!novoAdmin.nome || !novoAdmin.email" color="danger" (click)="save()" >Adicionar</button>
+
+
+</ion-row>
+
+</ion-content>

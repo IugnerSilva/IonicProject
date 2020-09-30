@@ -1,16 +1,20 @@
-<ion-split-pane>
-  <ion-menu contentId="content">
+<ion-split-pane >
+  
+  <ion-menu contentId="contento">
     <ion-header>
-      <ion-toolbar class="cor-fundo">
-        <ion-title  class="title">Menu</ion-title>
+      <ion-toolbar color="danger">
+        <ion-title  class="title" >Menu</ion-title>
       </ion-toolbar>
     </ion-header>
 
-        <ion-content padding>
+        <ion-content padding >
+          <div *ngIf="administrador; else templateName">
           <ion-list>
               <ion-menu-toggle auto-hide="false"  *ngFor="let p of pages">
                 <ion-item [routerLink]= "p.url"  routerDirection= "root" 
                           [class.active-item]=" selectedPath === p.url">
+                          
+                <ion-icon [name]="p.icon" slot="start"></ion-icon>
 
                           {{p.title}}
 
@@ -18,16 +22,39 @@
 
               </ion-menu-toggle>
 
-              <ion-item (click)="init()">
+              <ion-item (click)="sair()">
+                <ion-icon name="exit"slot="start" ></ion-icon>
                  Sair
               </ion-item>
                   
           </ion-list>
+        </div>
+        <ng-template #templateName>
+          <ion-list>
+              <ion-menu-toggle auto-hide="false"  *ngFor="let p of pages2">
+                <ion-item [routerLink]= "p.url"  routerDirection= "root" 
+                          [class.active-item]=" selectedPath === p.url">
+                          
+                <ion-icon [name]="p.icon" slot="start"></ion-icon>
 
+                          {{p.title}}
+
+                 </ion-item>
+
+              </ion-menu-toggle>
+
+              <ion-item (click)="sair()">
+                <ion-icon name="exit"slot="start" ></ion-icon>
+                 Sair
+              </ion-item>
+                  
+          </ion-list>
+        </ng-template>
         </ion-content>
   </ion-menu>
 
-  <ion-router-outlet id="content" main>
+  <ion-router-outlet id="contento" main>
 
   </ion-router-outlet>
+  
 </ion-split-pane>

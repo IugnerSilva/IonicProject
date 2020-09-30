@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DBService } from '../services/db.services';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.services';
 
 @Component({
   selector: 'app-deslogar',
@@ -14,7 +15,7 @@ export class DeslogarPage implements OnInit {
   
   loading: any;
 
-  constructor(private database: DBService, private loadingCtrl: LoadingController, private router: Router ) {
+  constructor(private auth: AuthService, private loadingCtrl: LoadingController, private router: Router ) {
 
     this.carregando = true;
     this.init();
@@ -31,7 +32,7 @@ export class DeslogarPage implements OnInit {
 
     try {
 
-      this.database.deslogar();
+      this.auth.deslogar();
       this.carregando = false;
       
       

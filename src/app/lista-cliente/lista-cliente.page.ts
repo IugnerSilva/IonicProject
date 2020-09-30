@@ -46,7 +46,7 @@ export class ListaClientePage implements OnInit {
   remove(uid: string) {
     this.database.remover('/cliente', uid)
       .then(() => {
-        alert('Cliente removido com sucesso');
+        this.presentToast('Cliente removido com sucesso!');
         this.carregarClientes();
       });
   }
@@ -98,7 +98,6 @@ export class ListaClientePage implements OnInit {
   }
 
   private confirmAdd() {
-    this.presentToast('Cliente adicionado com sucesso');
     this.carregarClientes();
     this.lista();
   }
@@ -107,6 +106,18 @@ export class ListaClientePage implements OnInit {
   lista() {
     this.router.navigate(['/listaCliente'])
   }
+  filtrar(ev:any){
 
+    const val = ev.target.value;
+    if(val && val.trim() != ''){
+      this.clientes = this.clientes.filter((item)=>{
+        return(item.nome.toLowerCase().indexOf(val.toLowerCase())>-1);
+      })
+    
+    }else {this.carregarClientes();}
+
+  }
+
+  
 
 }

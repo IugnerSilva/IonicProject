@@ -15,12 +15,11 @@ export class CadastroProdutoPage implements OnInit {
 
   novoProduto: Produto;
   
-
   editingProdutos: Produto;
 
   produtos: Produto[];
   categoriaList: Categoria[];
-
+  endereco: string;
   carregando = true;
   private loading: any;
   delete: string;
@@ -52,27 +51,21 @@ export class CadastroProdutoPage implements OnInit {
 
   async cadastrar() {
     await this.presentLoading();
-    this.database.inserir('produtos', this.novoProduto)
+    if(this.novoProduto.categoriaId === '12345'){
+     this.endereco = '/produtos/alimentos'
+    } else if(this.novoProduto.categoriaId === '22222'){
+      this.endereco = '/produtos/bebidas'
+    }else if(this.novoProduto.categoriaId === '789456'){
+      this.endereco = '/produtos/limpeza/'
+    }
+    this.database.inserir(this.endereco, this.novoProduto)
       .then(() => {
         this.modalController.dismiss(this.novoProduto);        
         this.presentToast('Produto adicionado com sucesso !');
         this.router.navigate(['/listaProdutos'])
         this.novoProduto = new Produto();
         this.loading.dismiss();
-        
-
-      });
-  }
-
-  private async carregarProdutos() {
-    await this.presentLoading();
-    this.database.listar<Produto>('/produtos')
-      .then(produtos => {
-        this.produtos = produtos;
-        this.carregando = false;
-        this.loading.dismiss();
-      }).catch(error => {
-        console.log(error);
+  
       });
   }
 
@@ -99,22 +92,29 @@ export class CadastroProdutoPage implements OnInit {
     } else {
         this.cadastrar();
     }
-
-
 }
   private edit() {
-    const updatingObject = {  foto: this.novoProduto.foto, preco: this.novoProduto.preco, nome: this.novoProduto.nome,
+    
+  const updatingObject = {  foto: this.novoProduto.foto, preco: this.novoProduto.preco, nome: this.novoProduto.nome,
                               descricao: this.novoProduto.descricao, categoriaId: this.novoProduto.categoriaId
                              };
-
-    this.database.update('/produtos/'+this.novoProduto.uid, updatingObject)
+    
+                             if(this.novoProduto.categoriaId === '12345'){
+                              this.endereco = '/produtos/alimentos/'
+                             } else if(this.novoProduto.categoriaId === '22222'){
+                               this.endereco = '/produtos/bebidas/'
+                             }else if(this.novoProduto.categoriaId === '789456'){
+                              this.endereco = '/produtos/limpeza/'
+                            }
+    this.database.update(this.endereco+this.novoProduto.uid, updatingObject)
         .then(() => {
             this.modalController.dismiss(this.novoProduto);
         }).catch(error => {
             console.log(error);
         });
 }
-
-
+voltar(){
+  this.modalController.dismiss(this.novoProduto);
+}
 
 }

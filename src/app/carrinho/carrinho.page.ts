@@ -1,12 +1,13 @@
 
 import { Component, OnInit } from '@angular/core';
 import { CarService } from '../services/carrinho.services';
-import { Carrinho } from '../model/carrinho';
+import { Pedidos } from '../model/pedidos';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Produto } from '../model/produto';
 import { DBService } from '../services/db.services';
 import { Router } from '@angular/router';
 import { Cliente } from '../model/cliente';
+import { AngularFireAuth } from '@angular/Fire/auth';
  
 @Component({
   selector: 'app-cart',
@@ -15,62 +16,70 @@ import { Cliente } from '../model/cliente';
 })
 export class CarrinhoPage implements OnInit {
  
-  selectedItems = [];
-  
+ selectedItems = [];
+  cart:Produto[];
   clientes: Cliente[];
   carregando = true;
+  novoPedido : Pedidos;
   private loading: any;
-  novoCarrinho: Carrinho;
-  carrinho: CarrinhoPage[];
   total = 0;
+  uid:string;
  
   constructor(private cartService: CarService, private loadingCtrl: LoadingController,
-              private toastCtrl: ToastController, private database: DBService,public router: Router) {
-                
-    this.novoCarrinho = new Carrinho(); 
+              private toastCtrl: ToastController, private database: DBService,public router: Router
+              ,private afa:AngularFireAuth) {
     }
-  ngOnInit() {
-    let items = this.cartService.getCart();
-    let selected = {};
-    for (let obj of items) {
-      if (selected[obj.uid]) {
-        selected[obj.uid].quantidade++;
-      } else {
-        selected[obj.uid] = {...obj, quantidade: 1};
-      }
-    }
-    this.selectedItems = Object.keys(selected).map(key => selected[key])
-    this.total = this.selectedItems.reduce((a, b) => a + (b.quantidade * b.preco), 0);
-    this.carregarClientes()
-  }
-
-  
-  async comprar() {
-    await this.presentLoading();
-    this.database.inserir('carrinho', this.selectedItems)
-      .then(() => {
-
-        this.presentToast('Produto solicitado com sucesso !');
-        this.router.navigate(['/home'])
-        this.novoCarrinho = new Carrinho();
-        this.loading.dismiss();
-        
-
-      });
-  }
-
-  private async carregarClientes() {
+    
+  async ngOnInit() {  
+    
+    var user = this.afa.auth.currentUser;
     this.database.listar<Cliente>('/cliente')
       .then(clientes => {
         this.clientes = clientes;
-        this.carregando = false;
-        this.loading.dismiss();
+        for(let cli of this.clientes){
+          if(user.email == cli.email){
+            this.uid = cli.uid
+          }
+        }
+        
+    console.log('id usuario'+this.uid)
       }).catch(error => {
         console.log(error);
       });
+    this.cart= this.cartService.getCart();
+    this.total = this.cart.reduce((a, b) => a + (b.amount * b.preco), 0);
+   
   }
 
-  
+  async comprar() {
+    for (let obj of this.cart) {
+      this.novoPedido = { uid:obj.uid, nome: obj.nome, preco: obj.preco, amount: obj.amount
+       };
+      
+    //await this.presentLoading();
+    console.log("ususus"+this.uid)
+    this.database.inserir('pedidos/'+this.uid, this.novoPedido)
+      .then(() => {this.novoPedido =  new Pedidos;
+        this.presentToast('Produto solicitado com sucesso !');
+        this.router.navigate(['/home'])
+   // this.loading.dismiss();
+        
+      });
+    
+      
+    //await this.presentLoading();
+    console.log("ususus"+this.uid)
+    this.database.inserir('historicoCliente/'+this.uid, this.novoPedido)
+      .then(() => {
+        this.novoPedido =  new Pedidos;
+        this.router.navigate(['/home'])
+        this.novoPedido =  new Pedidos;
+    //this.loading.dismiss();
+        
+      });
+    }
+  }
+
   async presentLoading() {
     this.loading = await this.loadingCtrl.create({ message: 'Por favor, aguarde ...' });
     return this.loading.present();
@@ -81,6 +90,5 @@ export class CarrinhoPage implements OnInit {
     toast.present();
   }
 
-
+  }
  
-}

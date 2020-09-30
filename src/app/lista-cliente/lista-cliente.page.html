@@ -7,7 +7,9 @@
 
     </button>
     <ion-title class="title">Clientes</ion-title>
-
+  </ion-toolbar>
+  <ion-toolbar color="danger">
+    <ion-searchbar (ionInput)="filtrar($event)" placeholder="Pesquisar" color="danger"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

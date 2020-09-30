@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar class="cor-fundo">
+    <button slot="start" class="button">
+      <ion-menu-button>
+
+      </ion-menu-button>
+
+    </button>
+
+    <ion-title class="title">Pedidos</ion-title>
+  </ion-toolbar>
+  <ion-toolbar color="danger">
+    <ion-searchbar (ionInput)="filtrar($event)" placeholder="Pesquisar" color="danger"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-item *ngFor="let p of pedidos">
+    <ion-item (click)="detalhes(p.uid)">
+    <div *ngIf="p.uid != null">
+      <div *ngFor="let cli of this.clientes">
+        <div *ngIf="p.uid == cli.uid">
+
+         <p>Nome:  {{cli.nome}}   </p>   
+         <p>CPF:  {{cli.cpf}}   </p> 
+        </div>
+      </div>
+    </div>
+  </ion-item>
+</ion-item>
+  
+</ion-content>

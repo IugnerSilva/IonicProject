@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, NavController, NavParams } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -17,7 +17,9 @@ import {environment} from '../environments/environment';
 import {AngularFireAuth} from '@angular/Fire/auth';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import { DBService } from './services/db.services';
-import { CartModalPageModule } from './cart-modal/cart-modal.module';
+import { LoginPage } from './login/login.page';
+import { AuthService } from './services/auth.services';
+import { HomePage } from './home/home.page';
 
 
 @NgModule({
@@ -30,7 +32,6 @@ import { CartModalPageModule } from './cart-modal/cart-modal.module';
      AngularFireModule.initializeApp(environment.firebase),
       AppRoutingModule,
       AngularFireStorageModule,
-      CartModalPageModule
      
     ],
   providers: [
@@ -39,7 +40,10 @@ import { CartModalPageModule } from './cart-modal/cart-modal.module';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AngularFireAuth,
     AngularFireDatabase,
-    DBService
+    DBService,
+    NavController,
+    AuthService,
+    HomePage
     
   ],
   bootstrap: [AppComponent]

@@ -1,0 +1,42 @@
+.title{
+    
+    color: white;
+    font-size: 30px;
+     }
+
+     ion-button{
+         font-size: 30px;
+         margin-left: 290px;
+        
+     }
+
+.cor-fundo{
+    --background: red;
+    color:white;
+}
+
+ion-item-sliding{
+    color: red;
+    font-size: 18px;
+    padding-left: 0px;
+
+}
+ion-list{
+    padding-left: 0px;
+}
+ion-img {
+    height: 100px;
+    width: 100px;
+    border: 1px solid green;
+    border-radius: 100px;
+    padding: 14px;
+}
+
+.upload-icon {
+    font-size: 80px;
+    color: #777;
+}
+
+ion-icon{
+    padding: 0px;
+}
