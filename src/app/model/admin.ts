@@ -5,13 +5,7 @@ export class Admin {
     senha: string;
     email: string;
     phone: string;
-    picture: string;
-    profileUID: string;
+    perfilUID: string;
     confirmed: boolean;
 }
 
-export class Profile {
-    uid: string;
-    description: string;
-    isAdmin: boolean;
-}

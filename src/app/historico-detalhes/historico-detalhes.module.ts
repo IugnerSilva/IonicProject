@@ -5,14 +5,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HistoricoClientePage } from './historico-cliente.page';
+import { HistoricoDetalhesPage } from './historico-detalhes.page';
+import { DetalhesCliPedidosPage } from '../detalhes-cli-pedidos/detalhes-cli-pedidos.page';
 import { DetalheHistoricoPage } from '../detalhe-historico/detalhe-historico.page';
-import { HistoricoDetalhesPage } from '../historico-detalhes/historico-detalhes.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: HistoricoClientePage
+    component: HistoricoDetalhesPage
   }
 ];
 
@@ -23,7 +23,8 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [HistoricoClientePage,HistoricoDetalhesPage],
-  entryComponents: [HistoricoDetalhesPage]
+  declarations: [DetalheHistoricoPage],
+  
+  entryComponents: [DetalheHistoricoPage]
 })
-export class HistoricoClientePageModule {}
+export class HistoricoDetalhesPageModule {}

@@ -14,20 +14,20 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content><ion-content>
+  <div *ngFor="let key of clientes">
+    <ion-item (click)="detalhes(key.uid) ">
+      <ion-label>
+        Nome: {{key.nome}} 
+        
+      </ion-label>
+      
+      <ion-label>Cpf: {{ key.cpf}}</ion-label>
+    </ion-item>
   
-  <ion-item *ngFor="let p of pedidos">
-    <ion-item (click)="detalhes(p.uid)">
-    <div *ngIf="p.uid != null">
-      <div *ngFor="let cli of this.clientes">
-        <div *ngIf="p.uid == cli.uid">
-
-         <p>Nome:  {{cli.nome}}   </p>   
-         <p>CPF:  {{cli.cpf}}   </p> 
-        </div>
-      </div>
-    </div>
-  </ion-item>
-</ion-item>
+  </div>
+         
+    
+</ion-content>
   
 </ion-content>

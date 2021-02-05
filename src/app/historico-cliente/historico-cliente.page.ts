@@ -6,6 +6,8 @@ import { DBService } from '../services/db.services';
 import { ModalController, LoadingController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/Fire/auth';
 import { DetalheHistoricoPage } from '../detalhe-historico/detalhe-historico.page';
+import { DetalhesCliPedidosPage } from '../detalhes-cli-pedidos/detalhes-cli-pedidos.page';
+import { HistoricoDetalhesPage } from '../historico-detalhes/historico-detalhes.page';
 
 @Component({
   selector: 'app-historico-cliente',
@@ -15,56 +17,46 @@ import { DetalheHistoricoPage } from '../detalhe-historico/detalhe-historico.pag
 export class HistoricoClientePage implements OnInit {
   loading: any;
   carregando = true;
-  pedidos: Pedidos[];
   novoPedido: Pedidos;
   clientes: Cliente[];
-  uid:string;
-  total = 0;
+  uid: string;
+  uidCli: string;
+  data: string;
+  count = 0;
+  pedidos: Pedidos[];
+  pedidos2: Pedidos[];
+  arr3 = [];
 
-  constructor(public router: Router,private database: DBService,public modal: ModalController,
-    private loadingCtrl: LoadingController,private afa:AngularFireAuth, private toastCtrl: ToastController) { 
+  constructor(public router: Router, private database: DBService, public modal: ModalController,
+    private loadingCtrl: LoadingController, private afa: AngularFireAuth, private toastCtrl: ToastController) {
+
 
   }
-  async ngOnInit() {  
-    
-    var user = this.afa.auth.currentUser;
+  async ngOnInit() {
+
+    await this.listarPedidos();
+  }
+
+
+  async listarPedidos() {
+
     this.database.listar<Cliente>('/cliente')
       .then(clientes => {
         this.clientes = clientes;
-        for(let cli of this.clientes){
-          if(user.email == cli.email){
-            this.uid = cli.uid;
-          }
-        }
-        
-  
-    this.database.listar<Pedidos>('/historicoCliente')
-      .then(pedidos => {
-        this.pedidos = pedidos;
-        for(let p of this.pedidos){
-        
-        }
-        console.log(this.pedidos);
 
-        
-    this.total = this.pedidos.reduce((a, b) => a + (b.amount * b.preco), 0);
-        
-      }).catch(error => {
-        console.log(error);
-      });
-
-      
+        this.clientes = clientes;
 
       }).catch(error => {
         console.log(error);
       });
   }
-        
-  async detalhes(uid: Cliente) {
-    
-    console.log(this.uid);
+
+
+
+  async detalhes(uid: string) {
+
     const modal = await this.modal.create({
-      component: DetalheHistoricoPage,
+      component: HistoricoDetalhesPage,
       componentProps: {
         editingPedidos: uid
       }
@@ -77,6 +69,22 @@ export class HistoricoClientePage implements OnInit {
         }
       });
 
-    return  await modal.present();
+    return await modal.present();
+  }
+
+  filtrar(ev: any) {
+
+    const val = ev.target.value;
+    if (val && val.trim() != '') {
+
+      this.clientes = this.clientes.filter((item) => {
+        return (item.nome.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+
+    }
+    else {
+      this.arr3 = [];
+      this.listarPedidos();
+    }
   }
 }

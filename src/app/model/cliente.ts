@@ -5,8 +5,8 @@ export class Cliente {
     senha: string;
     email: string;
     phone: string;
-    picture: string;
-    perfilUID: string;
+    rua: string;
+    numero: number;
 }
 
 

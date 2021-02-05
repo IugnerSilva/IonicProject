@@ -18,81 +18,76 @@ import { AngularFireAuth } from '@angular/Fire/auth';
 export class CadastroPage {
 
   novoCliente: Cliente;
-
   editingCliente: Cliente;
-  
   carregando = true;
-  private loading: any;
 
 
   constructor(public router: Router, private database: DBService,
     public modalController: ModalController,
     private cameraService: CameraService,
     private loadingCtrl: LoadingController,
-    private afa:AngularFireAuth,
+    private afa: AngularFireAuth,
     private toastCtrl: ToastController) {
     this.novoCliente = new Cliente();
-   
+
   }
 
-  
-  ngOnInit(){
-    
+
+  ngOnInit() {
+
     if (this.editingCliente) {
-        this.novoCliente = this.editingCliente;
-        
+      this.novoCliente = this.editingCliente;
+
     }
-    
-}
-  voltar(){
-      this.modalController.dismiss(this.novoCliente);
+
+  }
+  voltar() {
+    this.modalController.dismiss(this.novoCliente);
   }
 
   async cadastrar() {
-    await this.presentLoading();
-    this.afa.auth.createUserWithEmailAndPassword(this.novoCliente.email,this.novoCliente.senha)
+    this.afa.auth.createUserWithEmailAndPassword(this.novoCliente.email, this.novoCliente.senha)
     this.database.inserir('cliente', this.novoCliente)
       .then(() => {
         this.novoCliente = new Cliente();
-        this.loading.dismiss();
         this.modalController.dismiss(this.novoCliente);
         this.presentToast('Cliente cadastrado com sucesso!');
+      }).catch(error => {
+        this.presentToast('Email ou senha inválidos !');
       });
   }
 
 
-  async presentLoading() {
-    this.loading = await this.loadingCtrl.create({ message: 'Por favor, aguarde ...' });
-    return this.loading.present();
-  }
 
   async presentToast(message: string) {
     const toast = await this.toastCtrl.create({ message, duration: 2000 });
     toast.present();
   }
-  
+
   save() {
     if (this.editingCliente) {
-        this.edit();
+      this.edit();
     } else {
-        this.cadastrar();
+      this.cadastrar();
     }
 
-}
+  }
   private edit() {
-    const updatingObject = {  cpf: this.novoCliente.cpf, email: this.novoCliente.email, nome: this.novoCliente.nome,
-                              phone: this.novoCliente.phone, senha: this.novoCliente.senha
-                             };
+    const updatingObject = {
+      numero: this.novoCliente.numero, rua: this.novoCliente.rua, cpf: this.novoCliente.cpf,
+      email: this.novoCliente.email, nome: this.novoCliente.nome,
+      phone: this.novoCliente.phone, senha: this.novoCliente.senha
+    };
 
-    this.database.update('/cliente/'+this.novoCliente.uid, updatingObject)
-        .then(() => {
-            this.modalController.dismiss(this.novoCliente);
-            this.presentToast('Cliente alterado com sucesso!');
-            
-        }).catch(error => {
-            console.log(error);
-        });
-}
+    this.database.update('/cliente/' + this.novoCliente.uid, updatingObject)
+      .then(() => {
+        this.modalController.dismiss(this.novoCliente);
+        this.presentToast('Cliente alterado com sucesso!');
+
+      }).catch(error => {
+        console.log(error);
+      });
+  }
 
 
 

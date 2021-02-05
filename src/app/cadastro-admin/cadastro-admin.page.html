@@ -53,7 +53,7 @@
 <ion-row>
   <ion-item>
     <ion-label>Perfil</ion-label>
-    <ion-select name="perfil" [(ngModel)]="novoAdmin.profileUID" placeholder="Selecione um perfil">
+    <ion-select name="perfil" [(ngModel)]="novoAdmin.perfilUID" placeholder="Selecione um perfil">
       <ion-select-option *ngFor="let perfil of perfis" value="{{perfil.uid}}">{{perfil.description}}</ion-select-option>
     </ion-select>
   </ion-item>

@@ -1,9 +1,41 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>detalhes-cliente</ion-title>
+  <ion-toolbar class="cor-fundo">
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()" ><ion-icon name="md-arrow-back"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Detalhes do Cliente</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+  <ion-buttons slot="end">
+  <ion-button (click)="voltar()" ><ion-icon name="close"></ion-icon></ion-button>
+</ion-buttons>
+  <ion-list>
+    
+    <ng-container >
+          <ion-item >
+            Nome: {{ novoCli.nome }} 
+          </ion-item>
 
+        <ion-item>
+          Total: {{ novoCli.cpf }}
+        </ion-item>
+
+        <ion-item>
+          Telefone: {{ novoCli.phone }}
+        </ion-item>
+
+      <ion-item >
+          Rua: {{ novoCli.rua }}
+      </ion-item>
+    
+    </ng-container>
+   
+    
+  </ion-list>
+  
+<ion-row>
+  <ion-button color="danger" (click)="voltar()"> Voltar </ion-button>
+</ion-row>
 </ion-content>

@@ -16,7 +16,7 @@ export class CadastroAdminPage implements OnInit {
   novoAdmin: Admin;
 
   editingAdmin: Admin;
-  
+
   perfis: Perfil[];
   carregando = true;
   private loading: any;
@@ -25,24 +25,24 @@ export class CadastroAdminPage implements OnInit {
   constructor(public router: Router, private database: DBService,
     public modalController: ModalController,
     private loadingCtrl: LoadingController,
-    private afa:AngularFireAuth,
+    private afa: AngularFireAuth,
     private toastCtrl: ToastController) {
     this.novoAdmin = new Admin();
-   
+
   }
 
-  
-  ngOnInit(){
+
+  ngOnInit() {
     this.inicializarPerfis();
     if (this.editingAdmin) {
-        this.novoAdmin = this.editingAdmin;
-        
-    }
-}
+      this.novoAdmin = this.editingAdmin;
 
-async inicializarPerfis() {
-  this.perfis = await this.database.listWithUIDs<Perfil>('perfis');
-}
+    }
+  }
+
+  async inicializarPerfis() {
+    this.perfis = await this.database.listWithUIDs<Perfil>('perfis');
+  }
 
   cadastro() {
     this.router.navigate(['/listaCliente'])
@@ -50,10 +50,9 @@ async inicializarPerfis() {
 
   async cadastrar() {
     await this.presentLoading();
-    this.afa.auth.createUserWithEmailAndPassword(this.novoAdmin.email,this.novoAdmin.senha)
+    this.afa.auth.createUserWithEmailAndPassword(this.novoAdmin.email, this.novoAdmin.senha)
     this.database.inserir('admin', this.novoAdmin)
       .then(() => {
-        //this.presentToast(message);
         this.novoAdmin = new Admin();
         this.loading.dismiss();
         this.cadastro();
@@ -70,30 +69,31 @@ async inicializarPerfis() {
     const toast = await this.toastCtrl.create({ message, duration: 2000 });
     toast.present();
   }
-  
+
   save() {
     if (this.editingAdmin) {
-        this.edit();
+      this.edit();
     } else {
-        this.cadastrar();
+      this.cadastrar();
     }
 
-}
+  }
 
   private edit() {
-    const updatingObject = {  cpf: this.novoAdmin.cpf, email: this.novoAdmin.email, nome: this.novoAdmin.nome,
-                              phone: this.novoAdmin.phone, senha: this.novoAdmin.senha
-                             };
+    const updatingObject = {
+      cpf: this.novoAdmin.cpf, email: this.novoAdmin.email, nome: this.novoAdmin.nome,
+      phone: this.novoAdmin.phone, senha: this.novoAdmin.senha
+    };
 
-    this.database.update('/cliente/'+this.novoAdmin.uid, updatingObject)
-        .then(() => {
-            this.modalController.dismiss(this.novoAdmin);
-            this.presentToast('Admin alterado com sucesso!');
-            
-        }).catch(error => {
-            console.log(error);
-        });
-}
+    this.database.update('/cliente/' + this.novoAdmin.uid, updatingObject)
+      .then(() => {
+        this.modalController.dismiss(this.novoAdmin);
+        this.presentToast('Admin alterado com sucesso!');
+
+      }).catch(error => {
+        console.log(error);
+      });
+  }
 
 
 }

@@ -21,7 +21,7 @@
 
     background-color: red;
     color:white;
-
+    
  }
  ion-card-content{
      position: relative;
@@ -49,4 +49,18 @@ ion-badge{
 
      ion-col{
          font-size: 20px;
+     }
+
+     .icon{
+        font-size: 30px;
+        padding: 5px;
+        position: relative;
+     }
+   
+
+     .quant{
+         
+        font-size: 20px;
+      position: relative;
+         padding: 5px;
      }

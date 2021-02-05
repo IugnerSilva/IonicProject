@@ -4,11 +4,14 @@ import { Router } from '@angular/router';
 import { DBService } from '../services/db.services';
 import { ModalController, LoadingController, ToastController } from '@ionic/angular';
 import { CadastroPage } from '../cadastro/cadastro.page';
+import { AngularFireAuth } from '@angular/Fire/auth';
+import { DetalhesClientePage } from '../detalhes-cliente/detalhes-cliente.page';
 
 @Component({
   selector: 'app-lista-cliente',
   templateUrl: './lista-cliente.page.html',
   styleUrls: ['./lista-cliente.page.scss'],
+  
   providers: [DBService]
 })
 export class ListaClientePage implements OnInit {
@@ -19,12 +22,20 @@ export class ListaClientePage implements OnInit {
 
 
   constructor(public router: Router, private database: DBService, public modalController: ModalController,
-    private loadingCtrl: LoadingController, private toastCtrl: ToastController) {
+    private loadingCtrl: LoadingController,private afa:AngularFireAuth, private toastCtrl: ToastController) {
 
 
   }
 
   async ngOnInit() {
+
+    this.database.listar<Cliente>('/cliente')
+    .then(clientes => {
+      this.clientes = clientes;
+      
+    }).catch(error => {
+        console.log(error);
+      });
     
     this.carregando = true;
 
@@ -49,6 +60,7 @@ export class ListaClientePage implements OnInit {
         this.presentToast('Cliente removido com sucesso!');
         this.carregarClientes();
       });
+  
   }
   
 
@@ -66,8 +78,6 @@ export class ListaClientePage implements OnInit {
 
         }
       });
-
-      
     return  await modal.present();
   }
 
@@ -118,6 +128,23 @@ export class ListaClientePage implements OnInit {
 
   }
 
+  async detalhes(cliente: Cliente) {
+    const modal = await this.modalController.create({
+      component: DetalhesClientePage,
+      componentProps: {
+        editingCli: cliente
+      }
+    });
+
+    modal.onDidDismiss()
+      .then(result => {
+        if (result.data) {
+
+        }
+      });
+
+    return  await modal.present();
+  }
   
 
 }

@@ -9,13 +9,13 @@ import { Perfil } from '../model/perfil';
   styleUrls: ['./cadastro-perfil.page.scss'],
 })
 export class CadastroPerfilPage implements OnInit {
-  
+
   novoPerfil: Perfil;
-  constructor(private dbService: DBService,public toastController: ToastController) {
-    
+  constructor(private dbService: DBService, public toastController: ToastController) {
+
     this.novoPerfil = new Perfil();
 
-   }
+  }
 
   ngOnInit() {
   }

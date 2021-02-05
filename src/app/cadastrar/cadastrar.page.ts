@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DBService } from '../services/db.services';
 import { Cliente } from '../model/cliente';
-import { ModalController, LoadingController, ToastController, NavController } from '@ionic/angular';
+import { ModalController, LoadingController, ToastController, NavController, MenuController } from '@ionic/angular';
 import { CameraService } from '../services/camera.services';
 import { Camera } from '@ionic-native/camera/ngx';
 import { Base64 } from '@ionic-native/base64/ngx';
 import { AngularFireAuth } from '@angular/Fire/auth';
 import { AuthService } from '../services/auth.services';
+import { Admin } from '../model/admin';
 
 @Component({
   selector: 'app-cadastrar',
@@ -20,42 +21,71 @@ export class CadastrarPage {
   novoCliente: Cliente = new Cliente;
 
   editingCliente: Cliente;
-  
+
+  emailCli: string;
+  cliente: Cliente[];
+  admin: Admin[];
   carregando = true;
-  private loading: any;
 
 
   constructor(public router: Router, private database: DBService,
-  
-    private loadingCtrl: LoadingController,
-    private afa:AngularFireAuth,
+    private menu: MenuController,
     private toastCtrl: ToastController,
-    private auth:AuthService) {
+    private auth: AuthService) {
 
-   
   }
-
 
   async cadastrar() {
-    await this.presentLoading();
     this.auth.criarUsuario(this.novoCliente)
-    this.database.inserir('cliente', this.novoCliente)
-      .then(() => {
-        this.presentToast('Cadastrado com sucesso !');
-        this.novoCliente = new Cliente();
-        this.loading.dismiss();
-        this.router.navigate(['/home'])
+    this.database.listar<Admin>('/admin')
+      .then(admin => {
+        this.admin = admin;
+        for (let admin of this.admin) {
+          this.database.listar<Cliente>('/cliente')
+            .then(clientes => {
+              this.cliente = clientes;
+              for (let cli of this.cliente) {
+
+
+                if (this.novoCliente.email != cli.email && this.novoCliente.email != admin.email) {
+
+
+                  this.database.inserir('cliente', this.novoCliente)
+                    .then(() => {
+                      this.presentToast('Cliente cadastrado com sucesso !');
+                      this.novoCliente = new Cliente();
+                      this.router.navigate(['/home'])
+                    }).catch(error => {
+                      this.presentToast('Ops! Algo deu errado tente novamente !');
+                    });
+
+                } else {
+
+                  this.presentToast('Já existe uma conta com esse email !');
+                  break
+                }
+              }
+
+            }).catch(error => {
+              console.log(error);
+            });
+        }
+      }).catch(error => {
+        console.log(error);
       });
+
   }
 
- 
 
+  ionViewDidEnter() {
+    this.menu.enable(false)
 
-  async presentLoading() {
-    this.loading = await this.loadingCtrl.create({ message: 'Por favor, aguarde ...' });
-    return this.loading.present();
   }
 
+  ionViewWillLeave() {
+    this.menu.enable(true)
+
+  }
   async presentToast(message: string) {
     const toast = await this.toastCtrl.create({ message, duration: 2000 });
     toast.present();

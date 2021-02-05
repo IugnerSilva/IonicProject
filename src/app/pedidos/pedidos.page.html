@@ -15,19 +15,25 @@
 </ion-header>
 
 <ion-content>
-  
-  <ion-item *ngFor="let p of pedidos">
-    <ion-item (click)="detalhes(p.uid)">
-    <div *ngIf="p.uid != null">
-      <div *ngFor="let cli of this.clientes">
-        <div *ngIf="p.uid == cli.uid">
+  <div *ngFor="let cli of clientes">
+  <ng-container *ngFor="let arrays of pedidos2">
+    <div *ngIf="this.uid == arrays.uid">
+    <div *ngFor="let key of pedidos; let i = index">
+      <div *ngIf="this.uid == cli.uid">
+    <ion-item (click)="detalhes(key.uid) ">
+      <ion-label>
+        Nome: {{cli.nome}} 
+        
+      </ion-label>
+      
+      <ion-label>Data: {{ key.data| date:'dd/MM/yyyy'}}</ion-label>
+    </ion-item>
+  </div>
+</div>
+</div>
 
-         <p>Nome:  {{cli.nome}}   </p>   
-         <p>CPF:  {{cli.cpf}}   </p> 
-        </div>
-      </div>
-    </div>
-  </ion-item>
-</ion-item>
-  
+    </ng-container>
+  </div>
+         
+    
 </ion-content>

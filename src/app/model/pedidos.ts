@@ -1,8 +1,13 @@
 
+import { Produto } from './produto';
 
 export class Pedidos {
     uid:string;
-    nome: string;
-    preco:number;
-    amount:number;
+    data:string;
+    total: number;
+    nomeCli: string;
+    formaPagamento: string;
+    pedido: Produto[];
+    rua:string;
+    numero:number;
 }

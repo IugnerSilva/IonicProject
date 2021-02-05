@@ -5,54 +5,60 @@ import { Pedidos } from '../model/pedidos';
 import { DBService } from '../services/db.services';
 import { Cliente } from '../model/cliente';
 
+import { AngularFireAuth } from '@angular/Fire/auth';
 @Component({
   selector: 'app-detalhes-pedidos',
   templateUrl: './detalhes-pedidos.page.html',
   styleUrls: ['./detalhes-pedidos.page.scss'],
 })
 export class DetalhesPedidosPage implements OnInit {
-  
-  uid: Cliente;
+
+  uid: string;
   novoUid: Cliente;
   editingPedidos: Cliente;
-  
+
+  clientes: Cliente[];
   pedidos: Pedidos[];
+
+  pedidos2: Pedidos[];
   total = 0;
 
   constructor(public navCtrl: NavController,
-    private activatedRoute: ActivatedRoute,public modalController: ModalController,private database: DBService) { 
-     
-    this.uid = new Cliente(); 
-  
-}
+    private activatedRoute: ActivatedRoute, private afa: AngularFireAuth, public modalController: ModalController, private database: DBService) {
+
+  }
   ngOnInit() {
-        
-  
+
     if (this.editingPedidos) {
       this.novoUid = this.editingPedidos;
-      
-  
-  this.database.listar<Pedidos>('/pedidos/'+this.novoUid)
-  .then(pedidos => {
-    this.pedidos = pedidos;
-    console.log("uiduiduid"+this.novoUid)
-    for(let p of this.pedidos){
-    
+
+      var user = this.afa.auth.currentUser;
+      this.database.listar<Cliente>('/cliente')
+        .then(clientes => {
+          this.clientes = clientes;
+          for (let cli of this.clientes) {
+            if (user.email == cli.email) {
+
+              this.uid = cli.uid;
+              this.database.listar<Pedidos>('/pedidos/' + this.uid)
+                .then(pedidos => {
+                  this.pedidos2 = pedidos;
+
+                  console.log(this.novoUid);
+
+                }).catch(error => {
+                  console.log(error);
+                });
+            }
+          }
+        }).catch(error => {
+          console.log(error);
+        });
     }
-    console.log(this.pedidos);
-
-    
-this.total = this.pedidos.reduce((a, b) => a + (b.amount * b.preco), 0);
-    
-  }).catch(error => {
-    console.log(error);
-  });
-
   }
-}
 
-  voltar(){
+  voltar() {
     this.modalController.dismiss(this.novoUid);
   }
- 
+
 }

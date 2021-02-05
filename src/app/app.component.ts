@@ -9,6 +9,8 @@ import { LoginPage } from './login/login.page';
 import { AuthService } from './services/auth.services';
 import { HomePage } from './home/home.page';
 import { AngularFireAuth } from '@angular/Fire/auth';
+import { CarService } from './services/carrinho.services';
+import { Produto } from './model/produto';
 
 @Component({
   selector: 'app-root',
@@ -36,12 +38,6 @@ export class AppComponent {
     icon: 'ios-list'
 
   }, {
-
-    title: 'Histórico de pedidos',
-    url: '/historico-cliente',
-    icon: 'ios-list-box'
-
-  },{
     title: 'Lista de Administradores',
     url: '/lista-admin',
     icon: 'contacts'
@@ -66,8 +62,14 @@ export class AppComponent {
 
   },{
 
+    title: 'Histórico de Pedidos',
+    url: '/historico-cliente',
+    icon: 'ios-mail'
+
+  },{
+
     title: 'Pedidos',
-    url: '/pedidos',
+    url: '/pedido-cliente',
     icon: 'ios-mail'
 
   }
@@ -80,9 +82,9 @@ export class AppComponent {
     icon: 'home'
   },{
 
-    title: 'Categorias',
-    url: '/categorias',
-    icon: 'ios-list'
+    title: 'Histórico de Pedidos',
+    url: '/historico',
+    icon: 'ios-mail'
 
   },{
 
@@ -95,6 +97,7 @@ export class AppComponent {
   
   mostrarMenu: boolean = false ;
   administrador: boolean;
+  cart: Produto[];
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -102,14 +105,15 @@ export class AppComponent {
     private database: DBService,
     public router: Router,
     private auth: AuthService,
-    private afa:AngularFireAuth
-    
+    private afa:AngularFireAuth,
+    private cartService: CarService,
   ) {
 
     
   }
   
   async inicializarDadosLogin() {
+    this.cart = this.cartService.getCart();
     var user = this.afa.auth.currentUser;
     if(user != null){
     this.administrador = await this.auth.isAdmin();

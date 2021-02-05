@@ -20,11 +20,12 @@ import { DBService } from './services/db.services';
 import { LoginPage } from './login/login.page';
 import { AuthService } from './services/auth.services';
 import { HomePage } from './home/home.page';
+import { DetalheHistoricoPage } from './detalhe-historico/detalhe-historico.page';
 
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [AppComponent,DetalheHistoricoPage],
+  entryComponents: [DetalheHistoricoPage],
   imports: [
 
     BrowserModule, 

@@ -6,7 +6,8 @@ import { Cliente } from '../model/cliente';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { DBService } from './db.services';
-import { Profile, Admin } from '../model/admin';
+import { Admin } from '../model/admin';
+import { Perfil } from '../model/perfil';
 @Injectable()
 
 export class AuthService {
@@ -22,15 +23,23 @@ export class AuthService {
       
     }
     async isAdmin() {
+    
         return new Promise<boolean>((resolve, reject) => {
             this.afa.user
             .subscribe(async user => {
+            
                 const userFromDB = (await this.dbService.search<Admin>('admin', 'email', user.email))[0];
-                const profileFromDB = await this.dbService.getObjectByKey<Profile>('perfis', userFromDB.profileUID);
+                try{
+                const profileFromDB = await this.dbService.getObjectByKey<Perfil>('perfis', userFromDB.perfilUID);
 
                 resolve(profileFromDB.isAdmin === true);
-            });
+              } catch {
+                console.log('Usuário não é um Administrador !');
+              };
+            }
+            );
         });
+      
     }
 
 fazerLogin(cliente : Cliente){
@@ -48,7 +57,18 @@ fazerLogin(cliente : Cliente){
   }
 
   criarUsuario(cliente : Cliente){
+    
     return this.afa.auth.createUserWithEmailAndPassword(cliente.email,cliente.senha)
+    .then(res => {
+      if (res.user) {
+        console.log(res.user);
+      }
+    })
+    .catch(err => {
+      console.log(` Falha ao se cadastrar !`);
+      
+    });
+    
   }
  
   

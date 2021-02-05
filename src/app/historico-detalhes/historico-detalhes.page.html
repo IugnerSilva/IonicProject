@@ -1,13 +1,9 @@
 <ion-header>
   <ion-toolbar class="cor-fundo">
-    <button slot="start" class="button">
-      <ion-menu-button>
-
-      </ion-menu-button>
-
-    </button>
-
-    <ion-title class="title">Pedidos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="voltar()" ><ion-icon name="close"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title class="title">Detalhes do Histórico</ion-title>
   </ion-toolbar>
   <ion-toolbar color="danger">
     <ion-searchbar (ionInput)="filtrar($event)" placeholder="Pesquisar" color="danger"></ion-searchbar>
@@ -15,7 +11,9 @@
 </ion-header>
 
 <ion-content>
-  <div *ngFor="let key of arr3">
+  
+
+  <div *ngFor="let key of pedidos">
     <ion-item (click)="detalhes(key.uid) ">
       <ion-label>
         Nome: {{key.nomeCli}} 
@@ -23,13 +21,10 @@
       </ion-label>
       
       <ion-label>Data: {{ key.data| date:'dd/MM/yyyy'}}</ion-label>
-      
-      
-      <ion-icon (click)="remove(key.uid)" color="danger" name="trash" slot="end"></ion-icon>
-    </ion-item>    
-    
+    </ion-item>
   
   </div>
          
     
+  
 </ion-content>

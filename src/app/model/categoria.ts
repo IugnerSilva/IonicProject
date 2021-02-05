@@ -1,4 +1,6 @@
+import { Produto } from "./produto";
+
 export class Categoria {
     uid: string;
-    categoria: string;
+    nome: string;
 }

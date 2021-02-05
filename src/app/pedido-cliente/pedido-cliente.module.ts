@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
-
 import { PedidoClientePage } from './pedido-cliente.page';
+import { DetalhesCliPedidosPage } from '../detalhes-cli-pedidos/detalhes-cli-pedidos.page';
 
 const routes: Routes = [
   {
@@ -21,6 +20,8 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [PedidoClientePage]
+  declarations: [PedidoClientePage,DetalhesCliPedidosPage],
+  
+  entryComponents: [DetalhesCliPedidosPage]
 })
 export class PedidoClientePageModule {}

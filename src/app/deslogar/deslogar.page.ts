@@ -10,12 +10,12 @@ import { AuthService } from '../services/auth.services';
   styleUrls: ['./deslogar.page.scss'],
 })
 export class DeslogarPage implements OnInit {
-  
+
   carregando = true;
-  
+
   loading: any;
 
-  constructor(private auth: AuthService, private loadingCtrl: LoadingController, private router: Router ) {
+  constructor(private auth: AuthService, private loadingCtrl: LoadingController, private router: Router) {
 
     this.carregando = true;
     this.init();
@@ -34,20 +34,18 @@ export class DeslogarPage implements OnInit {
 
       this.auth.deslogar();
       this.carregando = false;
-      
-      
+
+
     } catch (error) {
       console.error(error);
-      
+
     } finally {
       this.loading.dismiss();
     }
   }
 
-  
-    
 
   async ngOnInit() {
 
-}
+  }
 }

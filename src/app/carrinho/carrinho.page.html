@@ -18,6 +18,21 @@
     <ion-item>
       Total: <span slot="end">{{ total | currency:'BRL':'symbol' }}</span>
     </ion-item>
+
+    <ion-item>
+    
+      
+      Data: <ion-datetime displayFormat = "DD/MM/YYYY" [min] = "minDate" 
+                      [max]= "maxDate" [(ngModel)]= "this.data">  </ion-datetime>
+      
+    </ion-item>
+    <ion-item>
+      Forma de Pagamento:
+      <ion-select name="perfil" [(ngModel)]="this.formaPagamento" placeholder="Selecione ">
+        <ion-select-option >Dinheiro</ion-select-option>
+        <ion-select-option >Cartão</ion-select-option>
+      </ion-select>
+    </ion-item>
   </ion-list>
   
 <ion-row>

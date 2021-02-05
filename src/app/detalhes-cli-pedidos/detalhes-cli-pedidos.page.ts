@@ -1,31 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { Cliente } from '../model/cliente';
-import { Pedidos } from '../model/pedidos';
 import { NavController, ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+import { Pedidos } from '../model/pedidos';
 import { DBService } from '../services/db.services';
+import { Cliente } from '../model/cliente';
+import { AngularFireAuth } from '@angular/Fire/auth';
 
 @Component({
-  selector: 'app-detalhe-historico',
-  templateUrl: './detalhe-historico.page.html',
-  styleUrls: ['./detalhe-historico.page.scss'],
+  selector: 'app-detalhes-pedidos',
+  templateUrl: './detalhes-cli-pedidos.page.html',
+  styleUrls: ['./detalhes-cli-pedidos.page.scss'],
 })
-export class DetalheHistoricoPage implements OnInit {
+export class DetalhesCliPedidosPage implements OnInit {
 
-  uid: Cliente;
-  novoUid: Cliente;
-  editingPedidos: Cliente;
-
+  uid: string;
+  novoUid: string;
+  editingPedidos: string;
   clientes: Cliente[];
   pedidos: Pedidos[];
-  arr3 = [];
   pedidos2: Pedidos[];
   total = 0;
+  arr3 = [];
 
   constructor(public navCtrl: NavController,
-    private activatedRoute: ActivatedRoute, public modalController: ModalController, private database: DBService) {
-
-    this.uid = new Cliente();
+    private activatedRoute: ActivatedRoute, private afa: AngularFireAuth,
+    public modalController: ModalController, private database: DBService) {
 
   }
   ngOnInit() {
@@ -33,14 +32,15 @@ export class DetalheHistoricoPage implements OnInit {
     if (this.editingPedidos) {
       this.novoUid = this.editingPedidos;
 
-      console.log("aquiiii" + this.novoUid);
       this.database.listar<Cliente>('/cliente')
         .then(clientes => {
           this.clientes = clientes;
 
           for (let cli of this.clientes) {
 
-            this.database.listar<Pedidos>('/historicoCliente/' + cli.uid)
+            this.uid = cli.uid
+
+            this.database.listar<Pedidos>('/pedidos/' + this.uid)
               .then(pedidos => {
                 this.pedidos = pedidos;
 
@@ -52,6 +52,7 @@ export class DetalheHistoricoPage implements OnInit {
                       break;
                     }
                   if (!shared) this.arr3.push(this.pedidos[i])
+
                 }
 
               }).catch(error => {
@@ -68,6 +69,5 @@ export class DetalheHistoricoPage implements OnInit {
   voltar() {
     this.modalController.dismiss(this.novoUid);
   }
-
 
 }

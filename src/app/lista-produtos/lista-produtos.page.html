@@ -15,7 +15,6 @@
 </ion-header>
 
 <ion-content>
-    
   <ion-list>
     <ion-item-sliding *ngFor="let b of bebidas">
       <ion-item>
@@ -31,21 +30,18 @@
           <ion-note color="primary" slot="end" *ngIf="b.preco">{{ b.preco | currency: 'BRL' }}</ion-note>
         </ion-label>
 
-        
       </ion-item>
-        
         <ion-icon (click)="editar(b)" color="blue" name="create" slot="end"></ion-icon>
-        <ion-icon (click)="remove(b.uid)" color="danger" name="trash" slot="end"></ion-icon>
-      
+        <ion-icon (click)="remove(b.uid)" color="danger" name="trash" slot="end"></ion-icon>      
       </ion-item>
 
     </ion-item-sliding>
   </ion-list>
-  
+
   <ion-list>
     <ion-item-sliding *ngFor="let a of alimentos">
       <ion-item>
-      <ion-item (click)="detalhes(a)">
+      <ion-item (click)="detalhes(a)" class="item">
         <ion-avatar slot="start">
           <img [src]="a.foto">
         </ion-avatar>
@@ -56,40 +52,60 @@
 
           <ion-note color="primary" slot="end" *ngIf="a.preco">{{ a.preco | currency: 'BRL' }}</ion-note>
         </ion-label>
+
       </ion-item>
-        
         <ion-icon (click)="editar(a)" color="blue" name="create" slot="end"></ion-icon>
-        <ion-icon (click)="remove(a.uid)" color="danger" name="trash" slot="end"></ion-icon>
-        
+        <ion-icon (click)="remove(a.uid)" color="danger" name="trash" slot="end"></ion-icon>      
       </ion-item>
 
     </ion-item-sliding>
   </ion-list>
+
   <ion-list>
-    <ion-item-sliding *ngFor="let l of limpeza">
+    <ion-item-sliding *ngFor="let lim of limpeza">
       <ion-item>
-      <ion-item (click)="detalhes(l)">
+      <ion-item (click)="detalhes(lim)" class="item">
         <ion-avatar slot="start">
-          <img [src]="l.foto">
+          <img [src]="lim.foto">
         </ion-avatar>
 
         <ion-label>
-          {{ l.nome }}
-          <p>{{ l.descricao }}</p>
-          
-        <ion-note color="primary" slot="end" *ngIf="l.preco">{{ l.preco | currency: 'BRL' }}</ion-note>
+          {{ lim.nome }}
+          <p>{{ lim.descricao }}</p>
+
+          <ion-note color="primary" slot="end" *ngIf="lim.preco">{{ lim.preco | currency: 'BRL' }}</ion-note>
         </ion-label>
+
       </ion-item>
-        
-        <ion-icon (click)="editar(l)" color="blue" name="create" slot="end"></ion-icon>
-        <ion-icon (click)="remove(l.uid)" color="danger" name="trash" slot="end"></ion-icon>
-        
+        <ion-icon (click)="editar(lim)" color="blue" name="create" slot="end"></ion-icon>
+        <ion-icon (click)="remove(lim.uid)" color="danger" name="trash" slot="end"></ion-icon>      
       </ion-item>
 
     </ion-item-sliding>
   </ion-list>
+  
+  <ion-list>
+    <ion-item-sliding *ngFor="let p of arr3">
+      <ion-item>
+      <ion-item (click)="detalhes(p)" class="item">
+        <ion-avatar slot="start">
+          <img [src]="p.foto">
+        </ion-avatar>
 
+        <ion-label>
+          {{ p.nome }}
+          <p>{{ p.descricao }}</p>
 
+          <ion-note color="primary" slot="end" *ngIf="p.preco">{{ p.preco | currency: 'BRL' }}</ion-note>
+        </ion-label>
+
+      </ion-item>
+        <ion-icon (click)="editar(p)" color="blue" name="create" slot="end"></ion-icon>
+        <ion-icon (click)="remove(p.uid)" color="danger" name="trash" slot="end"></ion-icon>      
+      </ion-item>
+
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
 <ion-row>
   <ion-button color="danger" (click)="add()"> Novo produto </ion-button>

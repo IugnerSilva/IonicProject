@@ -171,6 +171,13 @@ export class DBService {
         return this.afa.auth.signInWithEmailAndPassword(cliente.senha,cliente.email);
     
       }
+      deslogar(){
+        return this.afa.auth.signOut().then(function() {
+          // Sign-out successful.
+        }).catch(function(error) {
+          // An error happened.
+        });
+      }
 
       getAuth(){
         return this.afa.auth;

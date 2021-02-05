@@ -7,7 +7,18 @@
 
     </button>
     <ion-title class="title">Home</ion-title>
+    
     <ion-buttons slot="end">
+
+      <div *ngIf="administrador">
+      <ion-button (click)="openPedidos()">
+        <ion-badge *ngIf="arr3.length > 0">
+          {{ arr3.length}}
+        </ion-badge>
+        <ion-icon name="md-notifications"></ion-icon>
+      </ion-button>
+      </div>
+      
       <ion-button (click)="openCart()">
         <ion-badge *ngIf="cart.length > 0">
           {{ cart.length}}
@@ -21,7 +32,10 @@
 </ion-header>
 
 <ion-content>
+  
   <div>
+    
+
     <ion-row no-padding class="category-banner">
       
       <ion-col text-left button tappable (click)="beb = !beb" align-self-center>
@@ -42,14 +56,14 @@
                 <img [src]="b.foto">
                 <ion-row>
             
-                <ion-icon name="remove-circle" color="danger" (click)="decrementarProduto(b)"></ion-icon>
+                <ion-icon class="icon" name="remove-circle" color="danger" (click)="decrementarProduto(b)"></ion-icon>
                 
                 <div *ngFor="let item of cart">
-                  <div *ngIf="b.uid == item.uid">
-                    {{ item.amount }}
+                  <div *ngIf="b.uid == item.uid" >
+                    <p class="quant">{{ item.amount }}</p>
                   </div>
                 </div>
-                <ion-icon name="add-circle" color="primary" expand="full" (click)="addToCart(b)"></ion-icon>
+                <ion-icon class="icon"  name="add-circle" color="primary" expand="full" (click)="addToCart(b)"></ion-icon>
                
               </ion-row>
               </ion-card-content>
@@ -134,4 +148,5 @@
       </ion-slide>
     </ion-slides>
   </div>
+
 </ion-content>

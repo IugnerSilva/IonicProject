@@ -7,7 +7,7 @@
 
     </button>
 
-    <ion-title class="title">Pedidos</ion-title>
+    <ion-title class="title">Histórico dos Pedidos</ion-title>
   </ion-toolbar>
   <ion-toolbar color="danger">
     <ion-searchbar (ionInput)="filtrar($event)" placeholder="Pesquisar" color="danger"></ion-searchbar>
@@ -15,21 +15,26 @@
 </ion-header>
 
 <ion-content>
-  <div *ngFor="let key of arr3">
+  <div *ngFor="let cli of clientes">
+  <ng-container *ngFor="let arrays of pedidos2">
+    <div *ngIf="this.uid == arrays.uid">
+    <div *ngFor="let key of pedidos; let i = index">
+      <div *ngIf="this.uid == cli.uid">
     <ion-item (click)="detalhes(key.uid) ">
       <ion-label>
-        Nome: {{key.nomeCli}} 
+        Nome: {{cli.nome}} 
         
       </ion-label>
       
       <ion-label>Data: {{ key.data| date:'dd/MM/yyyy'}}</ion-label>
-      
-      
-      <ion-icon (click)="remove(key.uid)" color="danger" name="trash" slot="end"></ion-icon>
-    </ion-item>    
-    
-  
+    </ion-item>
   </div>
+</div>
+</div>
+
+    </ng-container>
+  </div>
+  </ion-content>
          
     
-</ion-content>
+  
