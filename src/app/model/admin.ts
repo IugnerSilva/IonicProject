@@ -6,6 +6,5 @@ export class Admin {
     email: string;
     phone: string;
     perfilUID: string;
-   // confirmed: boolean;
 }
 
