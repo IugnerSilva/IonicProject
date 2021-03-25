@@ -1,11 +1,8 @@
 <ion-header>
   <ion-toolbar class="cor-fundo">
-    <button slot="start" class="button">
-      <ion-menu-button>
-
-      </ion-menu-button>
-
-    </button>
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()" ><ion-icon name="close"></ion-icon></ion-button>
+    </ion-buttons>
     <ion-title class="title">Cadastrar</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -61,7 +58,7 @@
 
 <ion-row>
 
-  <button [disabled]="!novoAdmin.nome || !novoAdmin.email" color="danger" (click)="save()" >Adicionar</button>
+  <ion-button [disabled]="!novoAdmin.nome || !novoAdmin.email" color="danger" (click)="save()" >Adicionar</ion-button>
 
 
 </ion-row>

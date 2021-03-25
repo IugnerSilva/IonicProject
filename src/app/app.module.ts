@@ -21,11 +21,12 @@ import { LoginPage } from './login/login.page';
 import { AuthService } from './services/auth.services';
 import { HomePage } from './home/home.page';
 import { DetalheHistoricoPage } from './detalhe-historico/detalhe-historico.page';
+import { DetalheCliHistoricoPage } from './detalhe-cli-historico/detalhe-cli-historico.page';
 
 
 @NgModule({
-  declarations: [AppComponent,DetalheHistoricoPage],
-  entryComponents: [DetalheHistoricoPage],
+  declarations: [AppComponent,DetalheHistoricoPage,DetalheCliHistoricoPage],
+  entryComponents: [DetalheHistoricoPage,DetalheCliHistoricoPage],
   imports: [
 
     BrowserModule, 

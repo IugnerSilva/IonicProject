@@ -7,6 +7,7 @@ import { DBService } from '../services/db.services';
 import { AngularFireAuth } from '@angular/Fire/auth';
 import { DetalhesCliPedidosPage } from '../detalhes-cli-pedidos/detalhes-cli-pedidos.page';
 import { DetalheHistoricoPage } from '../detalhe-historico/detalhe-historico.page';
+import { DetalheCliHistoricoPage } from '../detalhe-cli-historico/detalhe-cli-historico.page';
 
 @Component({
   selector: 'app-historico-detalhes',
@@ -38,7 +39,7 @@ export class HistoricoDetalhesPage implements OnInit {
         .then(clientes => {
           this.clientes = clientes;
 
-          this.database.listar<Pedidos>('/historicoCliente/' + this.novoUid)
+          this.database.listar<Pedidos>('/pedidos/' + this.novoUid)
             .then(pedidos => {
               this.pedidos = pedidos;
 
@@ -55,9 +56,10 @@ export class HistoricoDetalhesPage implements OnInit {
   voltar() {
     this.modalController.dismiss(this.novoUid);
   }
+
   async detalhes(uid: string) {
     const modal = await this.modale.create({
-      component: DetalheHistoricoPage,
+      component: DetalheCliHistoricoPage,
       componentProps: {
         editingPedidos: uid
       }
@@ -71,5 +73,21 @@ export class HistoricoDetalhesPage implements OnInit {
       });
 
     return await modal.present();
+  }
+
+  filtrar(ev: any) {
+
+    const val = ev.target.value;
+    if (val && val.trim() != '') {
+
+      this.pedidos = this.pedidos.filter((item) => {
+        return (item.data.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+
+    }
+    else {
+      this.pedidos = [];
+      this.ngOnInit();
+    }
   }
 }

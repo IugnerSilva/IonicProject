@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar class="cor-fundo">
+    <button slot="start" class="button">
+      <ion-menu-button>
+
+      </ion-menu-button>
+
+    </button>
+    <ion-title class="title">Pefil </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <div *ngFor="let cliente of clientes">
+      <div *ngIf="clienteLogado.email == cliente.email">
+        
+          <ion-row>
+            <ion-item>
+              <ion-label >Nome: {{cliente.nome}}</ion-label>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-label >CPF: {{cliente.cpf}}</ion-label>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-label >Email: {{cliente.email}}</ion-label>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-label >Senha: {{cliente.senha}}</ion-label>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-label >Rua: {{cliente.rua}}</ion-label>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-label >Número: {{cliente.numero}}</ion-label>
+            </ion-item>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-label >Telefone: {{cliente.phone}}</ion-label>
+            </ion-item>
+          </ion-row>
+          
+      <ion-button color="danger" (click)="editar(cliente)"> Editar Perfil </ion-button>
+      </div>
+    </div>
+  </ion-list>
+
+</ion-content>

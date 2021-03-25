@@ -51,16 +51,36 @@ ion-badge{
          font-size: 20px;
      }
 
-     .icon{
-        font-size: 30px;
-        padding: 5px;
-        position: relative;
-     }
+     ion-item{
+        color: red;
+        font-size: 18px;
+        margin-left: -15px;
+        
+        margin-right: 15px;
+    }
    
 
      .quant{
          
         font-size: 20px;
-      position: relative;
-         padding: 5px;
+        position: absolute;
+        margin-left: 275px;
+        
+     }
+
+     .descricao{
+         font-size: 18px;
+     }
+
+     .butaoAdd{
+         
+        font-size: 30px;
+        position: relative;
+     }
+
+     .butaoRemove{
+        font-size: 30px;
+        position: absolute;
+        margin-left: 230px;
+
      }

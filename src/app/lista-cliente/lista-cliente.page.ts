@@ -6,6 +6,8 @@ import { ModalController, LoadingController, ToastController } from '@ionic/angu
 import { CadastroPage } from '../cadastro/cadastro.page';
 import { AngularFireAuth } from '@angular/Fire/auth';
 import { DetalhesClientePage } from '../detalhes-cliente/detalhes-cliente.page';
+import { AuthService } from '../services/auth.services';
+import { Admin } from '../model/admin';
 
 @Component({
   selector: 'app-lista-cliente',
@@ -19,10 +21,12 @@ export class ListaClientePage implements OnInit {
   clientes: Cliente[];
   carregando = true;
   loading: any;
-
+  cliente: Cliente;
+  admins: Admin[];
+  usuario: Admin;
 
   constructor(public router: Router, private database: DBService, public modalController: ModalController,
-    private loadingCtrl: LoadingController,private afa:AngularFireAuth, private toastCtrl: ToastController) {
+    private loadingCtrl: LoadingController, private auth:AuthService,private afa:AngularFireAuth, private toastCtrl: ToastController) {
 
 
   }
@@ -54,13 +58,28 @@ export class ListaClientePage implements OnInit {
       });
   }
 
-  remove(uid: string) {
+ remove(clientes: Cliente, uid: string) {
     this.database.remover('/cliente', uid)
       .then(() => {
         this.presentToast('Cliente removido com sucesso!');
         this.carregarClientes();
       });
-  
+
+      var user= this.afa.auth.currentUser;
+
+      this.database.listar<Admin>('/admin')
+      .then(admins => {
+        this.admins = admins;
+        for(let admin of this.admins){
+          if(user.email == admin.email){
+
+            this.usuario = admin
+            this.auth.excluirUsuarioLogado(clientes,this.usuario);
+          }
+        }
+      }).catch(error => {
+          console.log(error);
+        });   
   }
   
 

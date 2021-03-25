@@ -6,6 +6,7 @@ import { Produto } from '../model/produto';
 import { CadastroProdutoPage } from '../cadastro-produto/cadastro-produto.page';
 import { DetalhesPage } from '../detalhes/detalhes.page';
 import { Categoria } from '../model/categoria';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-lista-produtos',
@@ -26,9 +27,11 @@ export class ListaProdutosPage implements OnInit {
 
   arr3 = [];
   dados: any = [];
+  excluido: boolean;
 
   constructor(public router: Router, private database: DBService, public modal: ModalController,
-    private loadingCtrl: LoadingController, private toastCtrl: ToastController, public navCtrl: NavController) {
+    private loadingCtrl: LoadingController, private toastCtrl: ToastController, 
+    public navCtrl: NavController,private app: AppComponent) {
 
   }
 
@@ -37,6 +40,7 @@ export class ListaProdutosPage implements OnInit {
     this.carregando = true;
     await this.carregarProdutos();
 
+    this.app.inicializarDadosLogin();
     await this.carregarCategorias();
   }
 
@@ -84,7 +88,26 @@ export class ListaProdutosPage implements OnInit {
       });
   }
 
-  remove(uid: string) {
+  async remove(produto) {
+    
+    this.excluido = true
+   
+    produto = {
+      uid: produto.uid,preco: produto.preco, nome: produto.nome, 
+      foto: produto.foto, descricao: produto.descricao,
+       categoriaId: produto.categoriaId, excluido:this.excluido
+  };
+  this.database.update('/produtos/' + produto.categoriaId + "/"+ produto.uid, produto)
+    .then(() => {
+    }).catch(error => {
+      console.log(error);
+    });
+  
+      await location.reload();
+      this.presentToast('Produto removido com sucesso!');
+}
+
+  /*remove(uid: string) {
     this.database.listar<Categoria>('/categorias')
       .then(categorias => {
         this.categorias = categorias;
@@ -113,7 +136,7 @@ export class ListaProdutosPage implements OnInit {
         console.log(error);
       });
 
-  }
+  }*/
 
   async add() {
     const modal = await this.modal.create({
@@ -153,25 +176,6 @@ export class ListaProdutosPage implements OnInit {
     return await modal.present();
   }
 
-  async detalhes(produtos: Produto) {
-    const modal = await this.modal.create({
-      component: DetalhesPage,
-      componentProps: {
-        editingProdutos: produtos
-      }
-    });
-
-    modal.onDidDismiss()
-      .then(result => {
-        if (result.data) {
-
-        }
-      });
-
-    return await modal.present();
-  }
-
-
   async presentLoading() {
     this.loading = await this.loadingCtrl.create({ message: 'Por favor,aguarde...' });
     return this.loading.present();
@@ -191,20 +195,12 @@ export class ListaProdutosPage implements OnInit {
 
     const val = ev.target.value;
     if (val && val.trim() != '') {
-      this.bebidas = this.bebidas.filter((item) => {
+      this.arr3 = this.arr3.filter((item) => {
         return (item.nome.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
-    }
-    if (val && val.trim() != '') {
-      this.limpeza = this.limpeza.filter((item) => {
-        return (item.nome.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
-    if (val && val.trim() != '') {
-      this.alimentos = this.alimentos.filter((item) => {
-        return (item.nome.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    } else { this.carregarProdutos(); }
+    } else {
+      this.arr3 = [];
+       this.carregarProdutos(); }
 
   }
 

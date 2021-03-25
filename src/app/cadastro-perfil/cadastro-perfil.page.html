@@ -17,5 +17,5 @@
   <ion-toggle [(ngModel)]="novoPerfil.isAdmin" color="primary"></ion-toggle> Administrador?
   
 
-  <ion-button (click)="save()" expand="block">CADASTRAR</ion-button>
+  <ion-button [disabled]="!novoPerfil.description || novoPerfil.isAdmin" color="danger" (click)="save()" >Cadastrar</ion-button>
 </ion-content>

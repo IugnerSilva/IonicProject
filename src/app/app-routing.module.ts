@@ -20,11 +20,14 @@ const routes: Routes = [
   { path: 'pedido-cliente', loadChildren: './pedido-cliente/pedido-cliente.module#PedidoClientePageModule',canActivate: [AuthGuard] },
   { path: 'historico-cliente', loadChildren: './historico-cliente/historico-cliente.module#HistoricoClientePageModule',canActivate: [AuthGuard] },
   { path: 'cadastro-perfil', loadChildren: './cadastro-perfil/cadastro-perfil.module#CadastroPerfilPageModule',canActivate: [AuthGuard] },
-  { path: 'cadastro-admin', loadChildren: './cadastro-admin/cadastro-admin.module#CadastroAdminPageModule',canActivate: [AuthGuard] },
   { path: 'lista-admin', loadChildren: './lista-admin/lista-admin.module#ListaAdminPageModule',canActivate: [AuthGuard] },
-  { path: 'forma-pagamento', loadChildren: './forma-pagamento/forma-pagamento.module#FormaPagamentoPageModule',canActivate: [AuthGuard] },
   { path: 'historico-detalhes', loadChildren: './historico-detalhes/historico-detalhes.module#HistoricoDetalhesPageModule',canActivate: [AuthGuard] },
   { path: 'historico', loadChildren: './historico/historico.module#HistoricoPageModule',canActivate: [AuthGuard] },
+  { path: 'lista-categorias', loadChildren: './lista-categorias/lista-categorias.module#ListaCategoriasPageModule',canActivate: [AuthGuard]  },
+  { path: 'perfil-cliente', loadChildren: './perfil-cliente/perfil-cliente.module#PerfilClientePageModule',canActivate: [AuthGuard]  },
+  { path: 'editar-perfil', loadChildren: './editar-perfil/editar-perfil.module#EditarPerfilPageModule',canActivate: [AuthGuard] },
+  { path: 'confirmar-pedido', loadChildren: './confirmar-pedido/confirmar-pedido.module#ConfirmarPedidoPageModule',canActivate: [AuthGuard] },
+  
   ];
 
 @NgModule({

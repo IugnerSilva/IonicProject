@@ -3,8 +3,8 @@ import { Admin } from '../model/admin';
 import { Router } from '@angular/router';
 import { DBService } from '../services/db.services';
 import { ModalController, LoadingController, ToastController } from '@ionic/angular';
-import { CadastroPage } from '../cadastro/cadastro.page';
 import { AngularFireAuth } from '@angular/Fire/auth';
+import { CadastroAdminPage } from '../cadastro-admin/cadastro-admin.page';
 
 @Component({
   selector: 'app-lista-admin',
@@ -18,10 +18,9 @@ export class ListaAdminPage implements OnInit {
   loading: any;
 
 
-  constructor(public router: Router, private database: DBService,private afa:AngularFireAuth, public modalController: ModalController,
-    private loadingCtrl: LoadingController, private toastCtrl: ToastController) {
-
-
+  constructor(public router: Router, private database: DBService,private afa:AngularFireAuth, 
+              public modalController: ModalController,private loadingCtrl: LoadingController, 
+              private toastCtrl: ToastController) {
   }
 
   async ngOnInit() {
@@ -46,17 +45,16 @@ export class ListaAdminPage implements OnInit {
   remove(uid: string) {
     this.database.remover('/admin', uid)
       .then(() => {
-        alert('Administrador removido com sucesso');
+        this.presentToast('Administrador removido com sucesso!');
+
         this.carregarAdmins();
       });
       
   }
-  
-  
 
   async editar(admins: Admin) {
     const modal = await this.modalController.create({
-      component: CadastroPage,
+      component: CadastroAdminPage,
       componentProps: {
         editingAdmin: admins
       }
@@ -69,7 +67,6 @@ export class ListaAdminPage implements OnInit {
         }
       });
 
-      
     return  await modal.present();
   }
 
@@ -86,7 +83,7 @@ export class ListaAdminPage implements OnInit {
   
   async add() {
     const modal = await this.modalController.create({
-      component: CadastroPage
+      component: CadastroAdminPage
     });
 
     modal.onDidDismiss()
@@ -100,9 +97,7 @@ export class ListaAdminPage implements OnInit {
   }
 
   private confirmAdd() {
-    this.presentToast('Administrador adicionado com sucesso');
     this.carregarAdmins();
-    this.lista();
   }
 
   

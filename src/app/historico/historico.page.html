@@ -18,7 +18,7 @@
   <div *ngFor="let cli of clientes">
   <ng-container *ngFor="let arrays of pedidos2">
     <div *ngIf="this.uid == arrays.uid">
-    <div *ngFor="let key of pedidos; let i = index">
+    <div *ngFor="let key of pedidos">
       <div *ngIf="this.uid == cli.uid">
     <ion-item (click)="detalhes(key.uid) ">
       <ion-label>

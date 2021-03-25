@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Firebase } from '../provider/firebase/firebase';
 import { Router } from '@angular/router';
 import { DBService } from '../services/db.services';
 import { Cliente } from '../model/cliente';
@@ -8,6 +7,8 @@ import { CameraService } from '../services/camera.services';
 import { Camera } from '@ionic-native/camera/ngx';
 import { Base64 } from '@ionic-native/base64/ngx';
 import { AngularFireAuth } from '@angular/Fire/auth';
+import { Admin } from '../model/admin';
+import { AuthService } from '../services/auth.services';
 
 @Component({
   selector: 'app-cadastro',
@@ -20,14 +21,15 @@ export class CadastroPage {
   novoCliente: Cliente;
   editingCliente: Cliente;
   carregando = true;
+  admins: Admin[];
+  usuario: Admin;
 
 
   constructor(public router: Router, private database: DBService,
     public modalController: ModalController,
-    private cameraService: CameraService,
-    private loadingCtrl: LoadingController,
     private afa: AngularFireAuth,
-    private toastCtrl: ToastController) {
+    private auth:AuthService,
+    private toastCtrl: ToastController,) {
     this.novoCliente = new Cliente();
 
   }
@@ -88,9 +90,5 @@ export class CadastroPage {
         console.log(error);
       });
   }
-
-
-
-
 
 }

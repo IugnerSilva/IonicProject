@@ -93,7 +93,7 @@ export class CadastroProdutoPage implements OnInit {
     this.database.update('produtos/' + this.novoProduto.categoriaId + "/" + this.novoProduto.uid, updatingObject)
       .then(() => {
         this.modalController.dismiss(this.novoProduto);
-        this.presentToast("atualizou")
+        this.presentToast("Produto atualizado com sucesso !")
       }).catch(error => {
         console.log(error);
       });

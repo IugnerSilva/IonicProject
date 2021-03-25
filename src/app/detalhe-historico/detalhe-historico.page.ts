@@ -4,6 +4,8 @@ import { Pedidos } from '../model/pedidos';
 import { NavController, ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { DBService } from '../services/db.services';
+import { ItemPedido } from '../model/itemPedido';
+import { AngularFireAuth } from '@angular/Fire/auth';
 
 @Component({
   selector: 'app-detalhe-historico',
@@ -12,35 +14,33 @@ import { DBService } from '../services/db.services';
 })
 export class DetalheHistoricoPage implements OnInit {
 
-  uid: Cliente;
+  uid: string;
   novoUid: Cliente;
   editingPedidos: Cliente;
-
   clientes: Cliente[];
   pedidos: Pedidos[];
   arr3 = [];
   pedidos2: Pedidos[];
   total = 0;
+  itensPedido: ItemPedido[];
 
   constructor(public navCtrl: NavController,
-    private activatedRoute: ActivatedRoute, public modalController: ModalController, private database: DBService) {
-
-    this.uid = new Cliente();
+    private activatedRoute: ActivatedRoute, public modalController: ModalController, 
+    private afa: AngularFireAuth,private database: DBService) {
 
   }
   ngOnInit() {
-
+    
+    var user = this.afa.auth.currentUser;
     if (this.editingPedidos) {
       this.novoUid = this.editingPedidos;
 
-      console.log("aquiiii" + this.novoUid);
       this.database.listar<Cliente>('/cliente')
         .then(clientes => {
           this.clientes = clientes;
-
           for (let cli of this.clientes) {
-
-            this.database.listar<Pedidos>('/historicoCliente/' + cli.uid)
+            
+            this.database.listar<Pedidos>('/pedidos/' + cli.uid)
               .then(pedidos => {
                 this.pedidos = pedidos;
 
@@ -57,6 +57,17 @@ export class DetalheHistoricoPage implements OnInit {
               }).catch(error => {
                 console.log(error);
               });
+
+              if (user.email == cli.email) {
+                this.uid = cli.uid;
+              this.database.listar<ItemPedido>('/itemPedido/' + this.uid)
+                .then(itensPedido => {
+                  this.itensPedido = itensPedido;
+                }).catch(error => {
+                  console.log(error);
+                });}
+
+
 
           }
         }).catch(error => {

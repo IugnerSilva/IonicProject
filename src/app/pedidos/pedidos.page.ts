@@ -47,8 +47,6 @@ export class PedidosPage implements OnInit {
               .then(pedidos => {
                 this.pedidos = pedidos;
 
-                console.log(this.pedidos);
-
               }).catch(error => {
                 console.log(error);
               });
@@ -62,7 +60,6 @@ export class PedidosPage implements OnInit {
       .then(pedidos => {
         this.pedidos2 = pedidos;
 
-        console.log(this.pedidos);
 
       }).catch(error => {
         console.log(error);
@@ -72,7 +69,6 @@ export class PedidosPage implements OnInit {
 
   async detalhes(uid: Cliente) {
 
-    console.log(this.uid);
     const modal = await this.modal.create({
       component: DetalhesPedidosPage,
       componentProps: {
@@ -110,11 +106,14 @@ export class PedidosPage implements OnInit {
         .then(pedidos => {
           this.pedidos = pedidos;
 
-
         }).catch(error => {
           console.log(error);
         });
     }
+  }
 
+  async presentToast(message: string) {
+    const toast = await this.toastCtrl.create({ message, duration: 2000 });
+    toast.present();
   }
 }

@@ -37,11 +37,9 @@ export class HistoricoPage implements OnInit {
           if (user.email == cli.email) {
 
             this.uid = cli.uid;
-            this.database.listar<Pedidos>('/historicoCliente/' + this.uid)
+            this.database.listar<Pedidos>('/pedidos/' + this.uid)
               .then(pedidos => {
                 this.pedidos = pedidos;
-
-                console.log(this.pedidos);
 
               }).catch(error => {
                 console.log(error);
@@ -55,8 +53,6 @@ export class HistoricoPage implements OnInit {
     this.database.listar<Pedidos>('/pedidos/')
       .then(pedidos => {
         this.pedidos2 = pedidos;
-
-        console.log(this.pedidos);
 
       }).catch(error => {
         console.log(error);
@@ -82,5 +78,21 @@ export class HistoricoPage implements OnInit {
       });
 
     return await modal.present();
+  }
+
+  filtrar(ev: any) {
+
+    const val = ev.target.value;
+    if (val && val.trim() != '') {
+
+      this.pedidos = this.pedidos.filter((item) => {
+        return (item.data.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+
+    }
+    else {
+      this.pedidos = [];
+      this.ngOnInit();
+    }
   }
 }

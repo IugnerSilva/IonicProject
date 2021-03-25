@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar class="cor-fundo">
     <ion-buttons slot="start">
-      <ion-button (click)="voltar()" ><ion-icon name="md-arrow-back"></ion-icon></ion-button>
+      <ion-button (click)="voltar()">
+        <ion-icon name="md-arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Detalhe do Pedido</ion-title>
   </ion-toolbar>
@@ -9,36 +11,45 @@
 
 <ion-content>
   <ion-buttons slot="end">
-  <ion-button (click)="voltar()" ><ion-icon name="close"></ion-icon></ion-button>
-</ion-buttons>
+    <ion-button (click)="voltar()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-buttons>
   <ion-list>
-    
-    <ng-container *ngFor="let arrays of pedidos2">
-      <div *ngIf = "this.novoUid == arrays.uid"> 
-        <div *ngFor="let p of arrays.pedido">
-          <ion-item >
-            {{ p.amount }}x {{ p.nome }} 
-            <ion-label slot="end" text-right>{{ (p.preco ) | currency:'BRL':'symbol' }}</ion-label>
-          </ion-item>
+
+      <ng-container>
+        <div *ngFor="let p of itensPedido">
+          <div *ngIf="p.uidPedidos == this.novoUid">
+            <ion-item>
+              {{ p.quantidadeProduto }}x {{ p.nomeProduto }}
+              <ion-label slot="end" text-right>{{ (p.precoProduto ) | currency:'BRL':'symbol' }}</ion-label>
+            </ion-item>
+          </div>
         </div>
-        <ion-item>
-          Total: <span slot="end">{{ arrays.total | currency:'BRL':'symbol' }}</span>
-        </ion-item>
-        <ion-item>
-          Forma de Pagamento: <span slot="end">{{ arrays.formaPagamento }}</span>
-        </ion-item>
-      <ion-item >
-        <ion-label>Data: {{ arrays.data| date:'dd/MM/yyyy'}}</ion-label>
-   
-    </ion-item>
-    
-    </div>
+
+            <div *ngFor="let arrays of arr3">
+              <div *ngIf="this.novoUid == arrays.uid">
+                <ion-item>
+                  Total: <span slot="end">{{ arrays.total | currency:'BRL':'symbol' }}</span>
+                </ion-item>
+            <ion-item>
+              Forma de Pagamento: <span slot="end">{{ arrays.formaPagamento }}</span>
+            </ion-item>
+            <ion-item>
+              Status: <span slot="end">{{ arrays.status }}</span>
+            </ion-item>
+            <ion-item>
+              <ion-label>Data: {{ arrays.data| date:'dd/MM/yyyy'}}</ion-label>
+            </ion-item>
+          
+        </div>
+      </div>
     </ng-container>
-   
-    
+
+
   </ion-list>
-  
-<ion-row>
-  <ion-button color="danger" (click)="voltar()"> Voltar </ion-button>
-</ion-row>
+
+  <ion-row>
+    <ion-button color="danger" (click)="voltar()"> Voltar </ion-button>
+  </ion-row>
 </ion-content>

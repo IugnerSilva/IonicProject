@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar class="cor-fundo">
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()" ><ion-icon name="close"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title class="title">Editar Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>   
+
+<ion-row>
+  <ion-item>
+      <ion-label position="floating">Nome completo</ion-label>
+      <ion-input [(ngModel)]="novoCliente.nome" required></ion-input>
+    </ion-item>
+  
+  </ion-row>
+  
+  <ion-row>
+      <ion-item>
+          <ion-label position="floating">CPF</ion-label>
+          <ion-input [(ngModel)]="novoCliente.cpf" required></ion-input>
+        </ion-item>
+  </ion-row>
+  
+  <ion-row>
+  <ion-item>
+      <ion-label position="floating">Telefone/celular</ion-label>
+      <ion-input [(ngModel)]="novoCliente.phone" required></ion-input>
+    </ion-item>
+  </ion-row>
+
+  <ion-row>
+    <ion-item>
+        <ion-label position="floating">Rua</ion-label>
+        <ion-input [(ngModel)]="novoCliente.rua" required></ion-input>
+      </ion-item>
+    </ion-row>
+
+    <ion-row>
+      <ion-item>
+          <ion-label position="floating">Número</ion-label>
+          <ion-input [(ngModel)]="novoCliente.numero" required></ion-input>
+        </ion-item>
+      </ion-row>
+  
+  <ion-row>
+      <ion-row>
+          <ion-item>
+              <ion-label position="floating">E-mail</ion-label>
+              <ion-input type="E-mail" [(ngModel)]="novoCliente.email" required
+              pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"></ion-input>
+            </ion-item>
+          
+      </ion-row>
+  <ion-item>
+      <ion-label position="floating">Senha</ion-label>
+      <ion-input [(ngModel)]="novoCliente.senha" required></ion-input>
+    </ion-item>
+  </ion-row>
+
+
+<ion-row>
+  <ion-button [disabled]="!novoCliente.nome || !novoCliente.cpf || !novoCliente.phone || 
+                          !novoCliente.rua || !novoCliente.numero || !novoCliente.email || !novoCliente.senha" 
+                          color="danger" (click)="edit()" >Salvar</ion-button>
+</ion-row>
+
+</ion-content>

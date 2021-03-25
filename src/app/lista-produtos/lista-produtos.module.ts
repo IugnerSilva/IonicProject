@@ -23,7 +23,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ListaProdutosPage, CadastroProdutoPage,DetalhesPage],  
-  entryComponents: [CadastroProdutoPage,DetalhesPage]
+  declarations: [ListaProdutosPage, CadastroProdutoPage],  
+  entryComponents: [CadastroProdutoPage]
 })
 export class ListaProdutosPageModule {}

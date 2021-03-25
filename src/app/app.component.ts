@@ -27,17 +27,18 @@ export class AppComponent {
     icon: 'home'
   },{
 
-    title: 'Cadastrar Administrador',
-    url: '/cadastro-admin',
+    title: 'Cadastro de Perfis',
+    url: '/cadastro-perfil',
     icon: 'basket'
 
   },{
 
-    title: 'Categorias',
-    url: '/categorias',
-    icon: 'ios-list'
+    title: 'Histórico de Pedidos',
+    url: '/historico-cliente',
+    icon: 'ios-mail'
 
-  }, {
+  },{
+    
     title: 'Lista de Administradores',
     url: '/lista-admin',
     icon: 'contacts'
@@ -50,21 +51,15 @@ export class AppComponent {
 
   },{
 
+    title: 'Lista de Categorias',
+    url: '/lista-categorias',
+    icon: 'ios-list'
+
+  },{
+
     title: 'Lista de Produtos',
     url: '/listaProdutos',
     icon: 'basket'
-
-  },{
-
-    title: 'Cadastro de Perfis',
-    url: '/cadastro-perfil',
-    icon: 'basket'
-
-  },{
-
-    title: 'Histórico de Pedidos',
-    url: '/historico-cliente',
-    icon: 'ios-mail'
 
   },{
 
@@ -91,6 +86,12 @@ export class AppComponent {
     title: 'Pedidos',
     url: '/pedidos',
     icon: 'ios-mail'
+
+  },{
+
+    title: 'Perfil',
+    url: '/perfil-cliente',
+    icon: 'contacts'
 
   }
   ];

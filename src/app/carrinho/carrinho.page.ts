@@ -8,6 +8,7 @@ import { DBService } from '../services/db.services';
 import { Router } from '@angular/router';
 import { Cliente } from '../model/cliente';
 import { AngularFireAuth } from '@angular/Fire/auth';
+import { ItemPedido } from '../model/itemPedido';
 
 @Component({
   selector: 'app-cart',
@@ -24,19 +25,28 @@ export class CarrinhoPage implements OnInit {
   cart: Produto[];
   clientes: Cliente[];
   carregando = true;
-  novoPedido: Pedidos;
+  itemPedido: ItemPedido;
   private loading: any;
   total = 0;
   uid: string;
+  uidCli: string;
   nomeCli: string;
   rua: string;
   numero: number;
   formaPagamento: string;
+  status:string;
+  pedidos: Pedidos[];
+  pedidos2: Pedidos[];
+  arr3 = [];
+  array = [];
+  igual:string;
+  uidPedidos: string;
+  excluido: boolean;
 
   constructor(private cartService: CarService, private loadingCtrl: LoadingController,
     private toastCtrl: ToastController, private database: DBService, public router: Router
     , private afa: AngularFireAuth, private plataform: Platform) {
-
+      
 
     this.plataform.ready().then(() => {
 
@@ -59,45 +69,88 @@ export class CarrinhoPage implements OnInit {
         this.clientes = clientes;
         for (let cli of this.clientes) {
           if (user.email == cli.email) {
-            this.uid = cli.uid
+            this.uidCli = cli.uid
             this.nomeCli = cli.nome
             this.rua = cli.rua
             this.numero = cli.numero
           }
         }
 
-        console.log('id usuario' + this.uid)
       }).catch(error => {
         console.log(error);
       });
     this.cart = this.cartService.getCart();
-    this.total = this.cart.reduce((a, b) => a + (b.amount * b.preco), 0);
+    this.total = this.cart.reduce((a, b) => a + (b.quantidade * b.preco), 0);
+    this.status = "Aguardando confirmação"
+    this.excluido = false;
 
   }
 
   async comprar() {
-    this.novoPedido = {
-      uid: this.uid, rua: this.rua, numero: this.numero, formaPagamento: this.formaPagamento, nomeCli: this.nomeCli,
-      total: this.total, data: this.data, pedido: this.cart
+    
+    const novoPedido = {
+      uidCli: this.uidCli, rua: this.rua, numero: this.numero, formaPagamento: this.formaPagamento, 
+      nomeCli: this.nomeCli, data: this.data, status:this.status,total:this.total, excluido: this.excluido
     };
 
     if (this.cart.length > 0) {
-      this.database.inserir('pedidos/' + this.uid, this.novoPedido)
+      this.database.inserir('pedidos/' + this.uidCli, novoPedido)
         .then(() => {
           this.presentToast('Pedido solicitado com sucesso !');
 
         }).catch(error => {
           this.presentToast('Preecha todos os campos !');
         });
+        
 
-      this.database.inserir('historicoCliente/' + this.uid, this.novoPedido)
-        .then(() => {
+    this.database.listar<Cliente>('/cliente')
+      .then(clientes => {
+        this.clientes = clientes;
 
-          this.cartService.cart = []
-          this.router.navigate(['/home'])
+          this.database.listar<Pedidos>('/pedidos/' + this.uidCli)
+            .then(pedidos => {
+              this.pedidos = pedidos;
 
-        }).catch(error => {
-        });
+              for (var i in this.pedidos) {
+                var shared = false;
+                for (var j in this.pedidos2)
+                  if (this.pedidos2[j].nomeCli == this.pedidos[i].nomeCli) {
+                    shared = true;
+                    break;
+                  }
+                if (!shared) this.arr3.push(this.pedidos[i])
+                }
+                for(let p of this.arr3){
+                  this.igual = p.data
+                  this.uidPedidos = p.uid
+                }
+
+                  if(this.igual == novoPedido.data){
+                    console.log("carrinho"+this.cart)
+                    for(let item of this.cart){
+                    
+                    const itemPedido = { uidPedidos:this.uidPedidos, nomeProduto:item.nome,
+                                        precoProduto:item.preco,quantidadeProduto:item.quantidade,uidProduto:item.uid}
+
+                    this.database.inserir('itemPedido/' + this.uidCli, itemPedido)
+                    .then(() => {
+                      this.cartService.cart = []
+                      this.router.navigate(['/home'])
+                        
+
+                     }).catch(error => {
+                      this.presentToast('Preecha todos os campos !');
+                     });     }
+                }
+
+              
+            }).catch(error => {
+              console.log(error);
+            });
+
+      }).catch(error => {
+        console.log(error);
+      });
     }
     else {
       this.presentToast('Não há produtos no carrinho !');

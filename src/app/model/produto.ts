@@ -2,10 +2,10 @@ export class Produto {
     uid: string;
     nome: string;
     preco: number;
-    amount: number;
+    quantidade: number;
     foto: string;
     descricao: string;
-    userId: string;
     categoriaId: string;
+    excluido:boolean;
 }
 

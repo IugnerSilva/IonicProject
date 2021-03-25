@@ -1,0 +1,44 @@
+ion-avatar {
+    --border-radius: 0;
+}
+
+.title{
+    
+    color: white;
+    font-size: 30px;
+     }
+
+     ion-button{
+         width: 100%;
+         font-size: 18px;
+         height: 42px;
+         
+     }
+
+     ion-note{
+         font-size: 18px;
+     }
+.cor-fundo{
+    --background: red;
+    color:white;
+    
+}
+.button{
+
+    background-color: red;
+    color:white;
+
+ }
+
+ ion-item{
+    color: red;
+    font-size: 18px;
+
+}
+
+ion-list{
+    padding: 0px;
+}
+ion-searchbar{
+    font-size: 20px;
+}

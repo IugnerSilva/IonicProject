@@ -62,7 +62,9 @@
 
 
 <ion-row>
-    <ion-button color="danger" (click)="cadastrar()"> Salvar </ion-button>
+    <ion-button [disabled]="!novoCliente.nome || !novoCliente.cpf || !novoCliente.phone || 
+                          !novoCliente.rua || !novoCliente.numero || !novoCliente.email || !novoCliente.senha" 
+                          color="danger" (click)="cadastrar()" >Salvar</ion-button>
 </ion-row>
 
 </ion-content>

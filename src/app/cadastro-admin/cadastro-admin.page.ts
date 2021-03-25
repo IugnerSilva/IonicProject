@@ -44,18 +44,15 @@ export class CadastroAdminPage implements OnInit {
     this.perfis = await this.database.listWithUIDs<Perfil>('perfis');
   }
 
-  cadastro() {
-    this.router.navigate(['/listaCliente'])
-  }
 
   async cadastrar() {
     await this.presentLoading();
     this.afa.auth.createUserWithEmailAndPassword(this.novoAdmin.email, this.novoAdmin.senha)
     this.database.inserir('admin', this.novoAdmin)
       .then(() => {
+        this.presentToast('Administrador adicionado com sucesso');
         this.novoAdmin = new Admin();
         this.loading.dismiss();
-        this.cadastro();
       });
   }
 
@@ -69,7 +66,9 @@ export class CadastroAdminPage implements OnInit {
     const toast = await this.toastCtrl.create({ message, duration: 2000 });
     toast.present();
   }
-
+  voltar() {
+    this.modalController.dismiss(this.novoAdmin);
+  }
   save() {
     if (this.editingAdmin) {
       this.edit();
@@ -85,10 +84,10 @@ export class CadastroAdminPage implements OnInit {
       phone: this.novoAdmin.phone, senha: this.novoAdmin.senha
     };
 
-    this.database.update('/cliente/' + this.novoAdmin.uid, updatingObject)
+    this.database.update('/admin/' + this.novoAdmin.uid, updatingObject)
       .then(() => {
         this.modalController.dismiss(this.novoAdmin);
-        this.presentToast('Admin alterado com sucesso!');
+        this.presentToast('Administrador alterado com sucesso!');
 
       }).catch(error => {
         console.log(error);

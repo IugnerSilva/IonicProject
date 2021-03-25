@@ -32,7 +32,6 @@ export class CarService {
       } else {
         selected[obj.uid] = {...obj, amount:1};
         
-    console.log("entrou aqui");
       }
     }
     this.selectedItems = Object.keys(selected).map(key => selected[key])

@@ -9,6 +9,7 @@ import { Cliente } from '../model/cliente';
 import { AngularFireAuth } from '@angular/Fire/auth';
 import { DetalhesPedidosPage } from '../detalhes-pedidos/detalhes-pedidos.page';
 import { DetalhesCliPedidosPage } from '../detalhes-cli-pedidos/detalhes-cli-pedidos.page';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-pedido-cliente',
@@ -28,13 +29,15 @@ export class PedidoClientePage implements OnInit {
   pedidos2: Pedidos[];
   arr3 = [];
   array = [];
+  excluido: boolean;
   constructor(public router: Router, private database: DBService, public modal: ModalController,
-    private loadingCtrl: LoadingController, private afa: AngularFireAuth, private toastCtrl: ToastController) {
+    private loadingCtrl: LoadingController, private app: AppComponent,private afa: AngularFireAuth, private toastCtrl: ToastController) {
 
 
   }
   async ngOnInit() {
-
+    
+    this.app.inicializarDadosLogin();
     await this.listarPedidos();
   }
 
@@ -65,8 +68,6 @@ export class PedidoClientePage implements OnInit {
             }).catch(error => {
               console.log(error);
             });
-
-          console.log(this.arr3);
         }
 
       }).catch(error => {
@@ -94,11 +95,30 @@ export class PedidoClientePage implements OnInit {
     return await modal.present();
   }
 
-  remove(uid: string) {
-    this.database.remover('/pedidos/' + this.uid, uid)
+  async remove(confirmarPedidos) {
+    
+      this.excluido = true
+     
+      confirmarPedidos = {
+        uid: confirmarPedidos.uid,uidCli: confirmarPedidos.uidCli, rua: confirmarPedidos.rua, numero: confirmarPedidos.numero, 
+        formaPagamento: confirmarPedidos.formaPagamento, nomeCli: confirmarPedidos.nomeCli,
+         data: confirmarPedidos.data,status:confirmarPedidos.status, excluido:this.excluido
+    };
+    this.database.update('/pedidos/' + confirmarPedidos.uidCli + "/"+ confirmarPedidos.uid, confirmarPedidos)
+      .then(() => {
+      }).catch(error => {
+        console.log(error);
+      });
+    
 
+        await location.reload();
+        this.presentToast('Pedido removido com sucesso!');
+        
   }
-
+  async presentToast(message: string) {
+    const toast = await this.toastCtrl.create({ message, duration: 2000 });
+    toast.present();
+  }
   filtrar(ev: any) {
 
     const val = ev.target.value;
